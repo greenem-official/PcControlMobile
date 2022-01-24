@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_printLocation"
+        android:title="Print location" />
+    <item
+        android:id="@+id/item_tolocation"
+        android:title="To location..." />
+    <item
+        android:id="@+id/item_execute"
+        android:title="Execute..." />
+    <item
+        android:id="@+id/item_allfileslist"
+        android:title="All files list" />
+    <item
+        android:id="@+id/item_folderslist"
+        android:title="Folders list" />
+    <item
+        android:id="@+id/item_nonfolderslist"
+        android:title="Non-folders list" />
+    <item
+        android:id="@+id/item_folderinfo"
+        android:title="Folder info" />
+</menu>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/consoleLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#292929">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmdExtraBunntosRow"
+        tools:ignore="NotSibling">
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/cmdScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#000000"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/cmdScroll_linearLayoutVertical"
+            android:layout_width="match_parent"
+            android:layout_height="616dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cmdOutputTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/cmdSend_btn"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:background="@drawable/buttondesignconsolesendbtnstates"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        app:layout_constraintVertical_bias="0.38" />
+
+    <Button
+        android:id="@+id/cmdClearInput_btn"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/buttondesignconsoleclearinputbtnstates"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cmdSend_btn"
+        app:layout_constraintStart_toEndOf="@+id/cmdInput"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        app:layout_constraintVertical_bias="0.38" />
+
+    <EditText
+        android:id="@+id/cmdInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/app_edittext_color"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName|text"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textColorLink="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cmdClearInput_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:fillViewport="true"
+        android:scrollbarSize="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/cmdInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/cmdExtraBunntosRow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-6dp"
+            android:background="#323232"
+            android:gravity="center|center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cmdExtraButtonCtrl"
+                android:layout_width="65dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="CTRL"
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonSendToExec"
+                android:layout_width="65dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="INPUT"
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1_specialbtns"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonSpecialSymbols"
+                android:layout_width="95dp"
+                android:layout_height="38dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="Symbols..."
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonFiles"
+                android:layout_width="74dp"
+                android:layout_height="38dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="Files..."
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonSystem"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="system..."
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonOther"
+                android:layout_width="61dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="Other"
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonSpecialSymbol"
+                android:layout_width="49dp"
+                android:layout_height="38dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="§"
+                android:textAlignment="center"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonCommand"
+                style="@style/normal_console_button"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:text="cmd"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonMessage"
+                style="@style/normal_console_button"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:text="msg"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonTaskList"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="tasks"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cmdExtraButtonShutdown"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/normal_console_button"
+                android:text="shutdown"
+                android:textColor="@color/maincoloratt1"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/cmd_connectionLost_text"
+        android:layout_width="119dp"
+        android:layout_height="22dp"
+        android:text="⚠ Connection lost"
+        android:textAlignment="center"
+        android:textColor="#FF8D8D"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cmdScrollView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/cmdScrollDownBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:alpha="0"
+        android:backgroundTint="#7B74E6"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/cmdInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01999998"
+        app:srcCompat="@drawable/more_horiz" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

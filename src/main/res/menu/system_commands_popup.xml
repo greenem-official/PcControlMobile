@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Task list"
+        android:id="@+id/item_tasklist"/>
+    <item android:title="Shutdown">
+        <menu >
+            <item android:title="Turn off"
+                android:id="@+id/item_shutdown_turnoff"/>
+            <item android:title="Restart"
+                android:id="@+id/item_shutdown_restart" />
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_filesdialog_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:text="Enter the folder name"
+        android:textSize="18dp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/edit_filesdialog_openincurrent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_filesdialog_first"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/app_edittext_color"
+        android:hint="Folder name"
+        android:inputType="textPersonName|text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_filesdialog_second"
+        android:text="Or enter the new path"
+        android:textSize="18dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@id/edit_filesdialog_openincurrent"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/edit_filesdialog_openpath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_filesdialog_second"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/app_edittext_color"
+        android:hint="Entire path"
+        android:inputType="textPersonName|text" />
+
+</RelativeLayout>

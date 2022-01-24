@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="row_one_click_buttons_active">
+        <attr name="state_ctrl_active" format="boolean" />
+        <attr name="state_input_active" format="boolean" />
+    </declare-styleable>
+</resources>
