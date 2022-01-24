@@ -28,7 +28,7 @@ public class References {
     public static int authAccepted = -1;
 
     public static boolean connected = false;
-    public static boolean disconnected = false;
+    public static boolean disconnectedAlreadyExtraInfo = false;
     public static boolean wrongPassword = false;
 
     public static Handler handler;
@@ -57,6 +57,6 @@ public class References {
     public static boolean showSendInputToExecBtn = false;
 
     //debugSettings
-    public static boolean printConnectionDetails = false;
+    public static boolean printConnectionDetails = true;
     public static boolean printScreenDeltaMoveNumber = false;
 }

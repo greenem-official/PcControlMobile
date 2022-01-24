@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
         saveSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                System.out.println(LoadData.loadBoolean(GeneralData.sharedPrefs, MODE_PRIVATE, "alreadySavedIpSettings"));
+//                System.out.println(LoadData.loadBoolean(References.sharedPrefs, MODE_PRIVATE, "alreadySavedIpSettings"));
 
 
                 ipEditText = (EditText) findViewById(R.id.addIp_field);
@@ -93,23 +93,23 @@ public class SettingsActivity extends AppCompatActivity {
                     SaveData.save(getSharedPreferences(References.sharedPrefs, MODE_PRIVATE), "settings_main_password", pwd);
                 }
 
-                //SaveData.save(getSharedPreferences(GeneralData.sharedPrefs, MODE_PRIVATE), "alreadySavedIpSettings", true);
+                //SaveData.save(getSharedPreferences(References.sharedPrefs, MODE_PRIVATE), "alreadySavedIpSettings", true);
             }
         });
     }
 
     public void updateView(){
-        //Toast.makeText(getApplicationContext(), LoadData.loadString(getSharedPreferences(GeneralData.sharedPrefs, MODE_PRIVATE), "settings_main_ip"), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), LoadData.loadString(getSharedPreferences(References.sharedPrefs, MODE_PRIVATE), "settings_main_ip"), Toast.LENGTH_SHORT).show();
 
-        /*if(LoadData.loadBoolean(getSharedPreferences(GeneralData.sharedPrefs, MODE_PRIVATE), "alreadySavedIpSettings")){
-            GeneralData.hasStoredIpSettings = true;
+        /*if(LoadData.loadBoolean(getSharedPreferences(References.sharedPrefs, MODE_PRIVATE), "alreadySavedIpSettings")){
+            References.hasStoredIpSettings = true;
         }
         else {
-            GeneralData.hasStoredIpSettings = false;
+            References.hasStoredIpSettings = false;
         }*/
 
         /*TextView alreadySavedSettings = findViewById(R.id.alreadySavedSettings_text);
-        if(GeneralData.hasStoredIpSettings){
+        if(References.hasStoredIpSettings){
             alreadySavedSettings.setVisibility(View.VISIBLE);
 //            alreadySavedSettings.setText("Already saved");
         }

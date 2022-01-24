@@ -2,8 +2,6 @@ package com.example.pcControl.network;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 import com.example.pcControl.data.References;
 
@@ -27,7 +25,6 @@ public class SocketListener implements Runnable {
             String displayLine = "";
             while (inputLine != null) {
                 SocketSender sender = References.socketSender;
-                //System.out.println("in = " + GeneralData.inSocket);
                 try {
                     inputLine = References.inSocket.readLine();
                     //inputLine = new String(inputLine.getBytes("UTF-8"), "windows-1251"); //Charset.forName("windows-1252")    StandardCharsets.UTF_8
@@ -46,6 +43,7 @@ public class SocketListener implements Runnable {
                 }
                 finally {
                     References.connected = true;
+                    References.disconnectedAlreadyExtraInfo = false;
                     displayLine = inputLine;
                 }
                 if(inputLine != null){
@@ -353,7 +351,7 @@ public class SocketListener implements Runnable {
                         }
                     }
 
-//                    String already = GeneralData.lastConsoleOutput;
+//                    String already = References.lastConsoleOutput;
 //                    String[] rows = already.split("\n");
 //                    String newStr = "";
 //                    if(rows.length > 40){
@@ -402,11 +400,11 @@ public class SocketListener implements Runnable {
 
             References.socket.close();
 
-            if(References.authAccepted==1 && References.disconnected==false) {
-                System.out.println(3);
-                onDisconnect();
+            if(References.authAccepted==1 && !References.disconnectedAlreadyExtraInfo) {
+                System.out.println("Disconnect");
+                //onDisconnect();
             }
-            //System.out.println(GeneralData.authAccepted);
+            //System.out.println(References.authAccepted);
             if(References.authAccepted==1) {
                 References.lastConsoleOutput += "Connection lost, reconnecting...\n";
             }
@@ -416,8 +414,9 @@ public class SocketListener implements Runnable {
     }
 
     private void onDisconnect() {
-        References.disconnected = true;
+        References.disconnectedAlreadyExtraInfo = true;
         References.connected = false;
+        //References.socketListener.interrupt(); // NPO
         References.socketListener = null;
         References.socketReconnecter = new Thread(ConnectionChecker.getInstance());
         References.socketReconnecter.start();

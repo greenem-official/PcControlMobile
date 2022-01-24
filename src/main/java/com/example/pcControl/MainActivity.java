@@ -19,10 +19,7 @@ import com.example.pcControl.tools.LoadData;
 public class MainActivity extends AppCompatActivity {
     public static volatile MainActivity instance;
     private boolean alreadyConnected = false;
-    //private Thread listenerThread = null;
     private boolean firstLaunch = true;
-    //private Handler handler = null;
-    //private boolean wrongPassword;
 
     public static MainActivity getInstance(){
         if(instance == null){
@@ -30,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return instance;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 connect();
             }
         });
-
-
-
-//        Button backSettingsBtn = (Button) findViewById(R.id.back_settings_btn);
-//        backSettingsBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                setContentView(R.layout.activity_main);
-//            }
-//        });
     }
 
     public void connect(){
@@ -77,23 +63,22 @@ public class MainActivity extends AppCompatActivity {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 References.socketSender = new SocketSender();
+                //Freezes the thread                                                                                 <-- not good (there are multiple of these problems)
                 References.socketSender.startConnection(References.ip, Integer.valueOf(References.port));
+                //If not successful
                 if(!References.socketSender.initialized)
                 {
                     System.out.println("Socket sender IS NOT initialized! (MainActivity)");
                     return;
                 }
             }
-            SocketSender sender = References.socketSender;
-            //sender.startConnection("IP", Integer.valueOf("12345"));                                    //localhost to ip
-            //SocketListener listener = SocketListener.getInstance();
+
             if (!alreadyConnected) {
                 References.socketListener = new Thread(SocketListener.getInstance());
                 References.socketListener.start();
-
             }
             //sender.sendMessage("android is connecting", false);
-            sender.sendMessage("$auth.request.password=" + References.password, false);
+            References.socketSender.sendMessage("$auth.request.password=" + References.password);
             //sender.sendMessage("ugfasdfg", false);
             alreadyConnected = true;
             References.wrongPassword = false;
@@ -120,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
 //            System.out.println(wrongPassword);
-//            System.out.println(GeneralData.connected);
+//            System.out.println(References.connected);
             if(References.wrongPassword) return;
             System.out.println(6);
             if(References.connected) {
@@ -149,12 +134,12 @@ public class MainActivity extends AppCompatActivity {
                 References.handler.postDelayed(HeartBeats.loop, 20000);
             } else if (References.authAccepted == 0) {
                 System.out.println(5);
-                Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
                 alreadyConnected = false;
                 References.connected = false;
                 References.wrongPassword = true;
             } else {
-                Toast.makeText(getApplicationContext(), "General error", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "General error", Toast.LENGTH_SHORT).show();
                 alreadyConnected = false;
                 References.connected = false;
             }

@@ -69,7 +69,7 @@ public class FilesDialog extends AppCompatDialogFragment {
                         if(fromPath.getText()!=null){
                             fullPath = fromPath.getText().toString();
                         }
-                        /*if(folder.equals("") || fullPath.equals(GeneralData.currentFolder)){ // does not work
+                        /*if(folder.equals("") || fullPath.equals(References.currentFolder)){ // does not work
                             dialogInterface.dismiss();
                         }*/
 
@@ -132,7 +132,7 @@ public class FilesDialog extends AppCompatDialogFragment {
         inCurrent.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
         //fileEditText.setTextColor(Color.);
 
-        //fromPath.setText(GeneralData.currentFolder + GeneralData.systemSeparator);
+        //fromPath.setText(References.currentFolder + References.systemSeparator);
 
         return builder.create();
     }
@@ -142,7 +142,7 @@ public class FilesDialog extends AppCompatDialogFragment {
     }
 
     /*private void checkButtonEnabledState(){
-        if(!fromPath.getText().toString().equals(GeneralData.currentFolder)){
+        if(!fromPath.getText().toString().equals(References.currentFolder)){
 
         }
         if(inCurrent.getText().toString().equals("")){

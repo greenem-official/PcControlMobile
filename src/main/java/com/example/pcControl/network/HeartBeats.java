@@ -8,9 +8,10 @@ public class HeartBeats {
         @Override
         public void run() {
             if(References.printConnectionDetails) {
-                System.out.println("1 (GeneralData.connected): " + References.connected);
-                System.out.println("2 (GeneralData.socketSender!=null):" + References.socketSender != null);
-                System.out.println("3 (GeneralData.socketSender.initialized):" + (References.socketSender.initialized));
+                System.out.println("Heartbeat:");
+                System.out.println("HeartBeats 1 (References.connected): " + References.connected);
+                System.out.println("HeartBeats 2 (References.socketSender!=null): " + References.socketSender != null);
+                System.out.println("HeartBeats 3 (References.socketSender.initialized): " + (References.socketSender.initialized));
             }
             if(References.connected && References.socketSender!=null && References.socketSender.initialized == true){
 

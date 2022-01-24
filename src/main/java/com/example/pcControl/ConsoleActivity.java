@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -281,7 +279,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 editable.insert(index, s);
 //                System.out.println(keyboardOpen);
 //                System.out.println(cmdScrollView.getY());
-//                System.out.println("heartBeats:" + GeneralData.heartBeatsNumber);
+//                System.out.println("heartBeats:" + References.heartBeatsNumber);
                 //cmdInput.setText(cmdInput.getText().toString()+"§");
 
             }
@@ -308,7 +306,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 editable.insert(index, s);
 //                System.out.println(keyboardOpen);
 //                System.out.println(cmdScrollView.getY());
-//                System.out.println("heartBeats:" + GeneralData.heartBeatsNumber);
+//                System.out.println("heartBeats:" + References.heartBeatsNumber);
                 //cmdInput.setText(cmdInput.getText().toString()+"§");
 
             }
@@ -384,7 +382,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()){
                             case R.id.item_tolocation:
-                                //GeneralData.socketSender.sendMessage("$system.files.cd");
+                                //References.socketSender.sendMessage("$system.files.cd");
                                 //foldersMenuLayout.setVisibility(View.VISIBLE);
                                 openFilesDialog();
                                 //References.reloadFoldersFilesList();
@@ -416,7 +414,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         });
 
         //while (true) {
-            //((TextView) findViewById(R.id.cmdOutputTextView)).setText(GeneralData.lastConsoleOutput);
+            //((TextView) findViewById(R.id.cmdOutputTextView)).setText(References.lastConsoleOutput);
         //}
 
         //Thread printer = new Thread(new Printer(textView));
@@ -556,7 +554,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         public void run() {
             String current = References.lastConsoleOutput;
             String[] array = current.split("\n");
-            //String[] newArray = new String[GeneralData.maxOutputLines];
+            //String[] newArray = new String[References.maxOutputLines];
             String newString = "";
 
             if(array.length > References.maxOutputLines){
@@ -599,9 +597,9 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 }
                 //System.out.println("Changed console text");
                 if(References.printConnectionDetails) {
-                    System.out.println("GeneralData.disconnected = " + References.disconnected + "; !GeneralData.connected = " + !References.connected);
+                    System.out.println("ConsoleActivity: connected = " + References.connected + "; disconnectedAlreadyExtraInfo = " + References.disconnectedAlreadyExtraInfo);
                 }
-                if (References.disconnected || !References.connected) {
+                if (References.disconnectedAlreadyExtraInfo || !References.connected) {
                     connectionLostText.setVisibility(View.VISIBLE);
                 } else {
                     connectionLostText.setVisibility(View.INVISIBLE);
@@ -730,19 +728,19 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
 //                lastFolder = pathParts[pathParts.length - 1];
 //            }
 
-            //References.currentFolder = fullPath; // += GeneralData.systemSeparator + fullPath; // maybe uncomment
+            //References.currentFolder = fullPath; // += References.systemSeparator + fullPath; // maybe uncomment
             References.socketSender.sendMessage("$system.files.changelocation.request.new=" + fullPath);
 
         }
         else{
-            //References.currentFolder = fullPath; // += GeneralData.systemSeparator + fullPath;
+            //References.currentFolder = fullPath; // += References.systemSeparator + fullPath;
             References.socketSender.sendMessage("$system.files.changelocation.request.new=" + References.fullPath);
         }*/
         //if(folder.)
-        //GeneralData.
+        //References.
         /*if(fullPath!=null && !fullPath.equals("")){
             if(folder!=null && !folder.equals("")){
-                GeneralData.lastConsoleOutput += "Using full path";
+                References.lastConsoleOutput += "Using full path";
             }
         }
         else if(folder!=null && !folder.equals("")){
@@ -750,7 +748,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         }
         //what if both?
         else{
-            GeneralData.lastConsoleOutput += "Enter the folder name OR path, you've done something wrong";
+            References.lastConsoleOutput += "Enter the folder name OR path, you've done something wrong";
         }*/
     }
 
@@ -916,7 +914,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                     References.lastConsoleOutput += "" + "\n";
                 }*/
             }
-            //GeneralData.socketSender.sendMessage(text);
+            //References.socketSender.sendMessage(text);
         }
     }
 

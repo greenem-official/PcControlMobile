@@ -86,7 +86,7 @@ public class ExecuteDialog extends AppCompatDialogFragment {
 
 
         //fileEditText.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, variants));
-        //System.out.println(GeneralData.);
+        //System.out.println(References.);
 
         /*AutoCompleteTextView actv1 = (AutoCompleteTextView) view.findViewById(R.id.edit_executedialog_filename);
         actv1.addTextChangedListener(new TextWatcher() {

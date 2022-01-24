@@ -12,7 +12,7 @@ public class Printer implements Runnable {
     @Override
     public void run(){
         while(true){
-            //textView.setText(GeneralData.lastConsoleOutput);
+            //textView.setText(References.lastConsoleOutput);
 
         }
     }
