@@ -36,7 +36,7 @@ import java.util.Locale;
 public class ConsoleActivity extends AppCompatActivity implements FilesDialog.FilesDialogListener, ExecuteDialog.ExecuteDialogListener {
 
     private TextView cmdText;
-    private EditText cmdInput;
+    private static EditText cmdInput;
     private LinearLayout cmdVerticalLayoutScrollView;
     private ScrollView cmdScrollView;
     private Button cmdSendButton;
@@ -59,6 +59,8 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
     private Button rowButtonExtraFiles;
 
     private ConstraintLayout foldersMenuLayout;
+
+    private static ConstraintLayout consoleLayout;
 
     private Thread printer;
     private int exit = 0;
@@ -129,6 +131,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         rowButtonExtraSystem = findViewById(R.id.cmdExtraButtonSystem);
         rowButtonExtraFiles = findViewById(R.id.cmdExtraButtonFiles);
         rowButtonExtraExecInput = findViewById(R.id.cmdExtraButtonSendToExec);
+        consoleLayout = findViewById(R.id.consoleLayout);
         //foldersMenuLayout = findViewById(R.id.foldersmenulayout);
         //fodersMenuOkButton = findViewById(R.id.foldersmenu_okbutton);
 
@@ -458,8 +461,8 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         cmdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                System.out.println(keyEvent.getAction());
-                System.out.println(keyEvent.getKeyCode() == KeyEvent.KEYCODE_C);
+                //System.out.println(keyEvent.getAction());
+                //System.out.println(keyEvent.getKeyCode() == KeyEvent.KEYCODE_C);
                 return false;
             }
         });
@@ -486,6 +489,13 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        cmdInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
 
             }
         });
@@ -777,6 +787,10 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         switch (keyCode) {
             case KeyEvent.KEYCODE_ENTER:
                 sendInput();
+                //newInputFocus();
+                cmdInput.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                 return true;
                 //if (event.isShiftPressed()) {
             default:
@@ -925,4 +939,15 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
     public static void stopRemoteExecution(){
         References.socketSender.sendMessage("$system.execution.stop.request");
     }
+
+//    public static void newInputFocus(){
+//        int index = cmdInput.getSelectionStart();
+//        Editable editable = cmdInput.getText();
+//        editable.insert(index, text);
+        //cmdInput.setSelection(0);
+
+//        cmdInput.requestFocus();
+//        InputMethodManager imm = (InputMethodManager) get getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//    }
 }

@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.Charset;
 
 public class SocketSender {
     private Socket socket;
@@ -32,7 +33,7 @@ public class SocketSender {
         if(socket !=null) {
             try {
                 out = new PrintWriter(socket.getOutputStream(), true);
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "windows-1251"));
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "windows-1251")); //"windows-1251"
             } catch (SocketException e) {
                 // ignore?
             } catch (IOException e) {
@@ -57,6 +58,8 @@ public class SocketSender {
         if(response){
             throw new IllegalArgumentException("\"RESPONSE MODE\" IS DEPRECATED!");
         }
+
+        msg = new String(msg.getBytes(Charset.forName("Cp1251")));
 
         if(References.outSocket==null) {
             System.out.println("null outSocket");
