@@ -10,6 +10,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class SocketSender {
     private Socket socket;
@@ -59,7 +60,8 @@ public class SocketSender {
             throw new IllegalArgumentException("\"RESPONSE MODE\" IS DEPRECATED!");
         }
 
-        msg = new String(msg.getBytes(Charset.forName("Cp1251")));
+        //msg = new String(msg.getBytes(StandardCharsets.UTF_8)); // Cp1251 windows-1251
+        //msg = new String(msg.getBytes(Charset.forName("Cp1251"))); // Cp1251 windows-1251
 
         if(References.outSocket==null) {
             System.out.println("null outSocket");

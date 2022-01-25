@@ -4,13 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_new"
+        android:icon="@mipmap/ic_launcher_att4"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_att4_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Att2"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.pcControl.ServersActivity"></activity>
+        <activity android:name="com.example.pcControl.ServersActivity"/>
         <activity android:name="com.example.pcControl.OtherActivity" />
         <activity android:name="com.example.pcControl.ConsoleActivity">
 
