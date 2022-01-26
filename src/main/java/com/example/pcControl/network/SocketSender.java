@@ -5,6 +5,7 @@ import com.example.pcControl.data.References;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -16,6 +17,7 @@ public class SocketSender {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private OutputStream outputStream;
     //public boolean connectedSuccessfully;
 
     public boolean initialized = false;
@@ -33,6 +35,7 @@ public class SocketSender {
 
         if(socket !=null) {
             try {
+                outputStream = socket.getOutputStream();
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "windows-1251")); //"windows-1251"
             } catch (SocketException e) {
@@ -44,6 +47,7 @@ public class SocketSender {
                 References.outSocket = out;
                 References.socket = socket;
                 References.socketPort = port;
+                References.outputStream = outputStream;
                 this.initialized = true;
             }
         }
@@ -60,16 +64,29 @@ public class SocketSender {
             throw new IllegalArgumentException("\"RESPONSE MODE\" IS DEPRECATED!");
         }
 
+        // Encoding:
         //msg = new String(msg.getBytes(StandardCharsets.UTF_8)); // Cp1251 windows-1251
-        //msg = new String(msg.getBytes(Charset.forName("Cp1251"))); // Cp1251 windows-1251
+        //msg = new String(msg.getBytes(Charset.forName("windows-1251"))); // Cp1251 windows-1251
 
         if(References.outSocket==null) {
             System.out.println("null outSocket");
             return;
         }
-        //Sending:
-        References.outSocket.println(msg);
-        //Logging:
+
+        // like flush or writeln
+        msg += "\n";
+
+        // Sending:
+        // Using bytes array:
+        try {
+            References.outputStream.write(msg.getBytes(Charset.forName("windows-1251")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Using normal string:
+        //References.outSocket.println(msg);
+
+        // Logging:
         if(msg!=null && (!msg.equals("$heartbeat.check")) || References.printHeartBeats) {
             System.out.println("Android sending: " + msg);
         }

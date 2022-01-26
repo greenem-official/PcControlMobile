@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.example.pcControl.network.SocketSender;
 
 import java.io.BufferedReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -23,6 +24,7 @@ public class References {
     public static PrintWriter outSocket;
     public static Socket socket;
     public static int socketPort;
+    public static OutputStream outputStream;
 
     public static String lastConsoleOutput = "";
     public static int authAccepted = -1;
