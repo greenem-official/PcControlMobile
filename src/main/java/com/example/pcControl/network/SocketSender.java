@@ -1,5 +1,6 @@
 package com.example.pcControl.network;
 
+import com.example.pcControl.console.GeneralLogger;
 import com.example.pcControl.data.References;
 
 import java.io.BufferedReader;
@@ -80,15 +81,17 @@ public class SocketSender {
         // Using bytes array:
         try {
             References.outputStream.write(msg.getBytes(Charset.forName("windows-1251")));
-        } catch (IOException e) {
+        } catch (SocketException e) {
+            //SocketListener.onDisconnect(); // comment if some exception fires here, maybe it'll do it itself. Or just copy code from there here
+        }catch (IOException e) {
             e.printStackTrace();
         }
         // Using normal string:
         //References.outSocket.println(msg);
 
         // Logging:
-        if(msg!=null && (!msg.equals("$heartbeat.check")) || References.printHeartBeats) {
-            System.out.println("Android sending: " + msg);
+        if(msg!=null && (!msg.equals("$heartbeat.check") || References.printHeartBeats)) {
+            GeneralLogger.log("Android sending: " + msg);
         }
         else{
             References.heartBeatsNumber++;

@@ -17,9 +17,9 @@ public class ConnectionChecker implements Runnable {
         /*boolean loop = true;
         while (loop) {*/
             System.out.println("Connection Checker loop");
-            References.socketSender.stopConnection();
-            References.socketSender = new SocketSender();
-            References.socketSender.startConnection(References.ip, Integer.valueOf(References.port));
+            References.sender.stopConnection();
+            References.sender = new SocketSender();
+            References.sender.startConnection(References.ip, Integer.valueOf(References.port));
 
             // It DOES connect first try, because the entire thread was frozen                                  <--    (needs to be fixed)
 
@@ -39,7 +39,7 @@ public class ConnectionChecker implements Runnable {
             References.socketListener = new Thread(SocketListener.getInstance());
             References.socketListener.start();
             System.out.println("Entering password...");
-            References.socketSender.sendMessage("$auth.request.password=" + References.password);
+            References.sender.sendMessage("$auth.request.password=" + References.password);
             References.handler.postDelayed(() -> {
                 System.out.println("References.authAccepted = " + References.authAccepted);
                 if (References.authAccepted == 1) {
@@ -47,6 +47,9 @@ public class ConnectionChecker implements Runnable {
                     References.connected = true;
                     References.handler.postDelayed(HeartBeats.loop, 20000);
                     System.out.println("Exiting Connection Checker");
+                    References.sender.sendMessage("$system.files.getlocation.request");
+                    References.sender.sendMessage("$system.files.getpathseparator.request");
+                    References.reloadFoldersFilesList();
                     return;
                 } else if (References.authAccepted == 0) {
                     System.out.println("Could not reconnect, Wrong password");
@@ -57,8 +60,8 @@ public class ConnectionChecker implements Runnable {
                     if(References.printConnectionDetails) {
                         System.out.println("reconnected");
                         System.out.println("ConnectionChecker 1 (References.connected): " + References.connected);
-                        System.out.println("ConnectionChecker 2 (References.socketSender!=null): " + References.socketSender != null);
-                        System.out.println("ConnectionChecker 3 (References.socketSender.initialized): " + (References.socketSender.initialized));
+                        System.out.println("ConnectionChecker 2 (References.socketSender!=null): " + References.sender != null);
+                        System.out.println("ConnectionChecker 3 (References.socketSender.initialized): " + (References.sender.initialized));
                     }
                     References.handler.postDelayed(this, 200);
                 } else {

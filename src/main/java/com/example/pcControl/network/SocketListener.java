@@ -24,12 +24,13 @@ public class SocketListener implements Runnable {
             String inputLine = "";
             String displayLine = "";
             while (inputLine != null) {
-                SocketSender sender = References.socketSender;
+                SocketSender sender = References.sender;
                 try {
                     inputLine = References.inSocket.readLine();
                     //inputLine = new String(inputLine.getBytes("UTF-8"), "windows-1251"); //Charset.forName("windows-1252")    StandardCharsets.UTF_8
                 }
                 catch (SocketException e){
+                    System.out.println("Socket exception debug: " + e);
                     onDisconnect();
                     break;
                 }
@@ -75,6 +76,13 @@ public class SocketListener implements Runnable {
                                     }
                                     if(args[1].equals("alreadyConnected")) {
                                         displayLine = null;
+                                    }
+                                }
+                            }
+                            if(args[0].equals("heartbeat")) {
+                                if (len > 1) {
+                                    if (args[1].equals("timeout")) {
+                                        onDisconnect(); // not tested
                                     }
                                 }
                             }
@@ -147,19 +155,19 @@ public class SocketListener implements Runnable {
                                     else if(args[1].equals("files")) {
                                         if(len>2) {
                                             //System.out.println(args[2]);
-                                            if(args[2].equals("getpathseparator")) {
-                                                if(len>3) {
+                                            if (args[2].equals("getpathseparator")) {
+                                                if (len > 3) {
                                                     if (args[3].equals("result")) {
                                                         References.systemSeparator = inputLine.substring(52);
                                                         displayLine = "";
                                                     }
                                                 }
                                             }
-                                            if(args[2].equals("getlocation")) {
-                                                if(len>3) {
-                                                    if(args[3].equals("result")) {
-                                                        if(len>4) {
-                                                            if(args[4].startsWith("location=")) {
+                                            if (args[2].equals("getlocation")) {
+                                                if (len > 3) {
+                                                    if (args[3].equals("result")) {
+                                                        if (len > 4) {
+                                                            if (args[4].startsWith("location=")) {
                                                                 String text = inputLine.substring(42);
                                                                 System.out.println("Got the location: " + text);
                                                                 References.currentFolder = text;
@@ -168,140 +176,127 @@ public class SocketListener implements Runnable {
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if(args[2].equals("fileslist")) {
-                                                if(len>3) {
-                                                    if(args[3].equals("result") || args[3].equals("silentresult")) {
-                                                        if(len>4){
-                                                            if(inputLine.length()>36){
+                                            } else if (args[2].equals("fileslist")) {
+                                                if (len > 3) {
+                                                    if (args[3].equals("result") || args[3].equals("silentresult")) {
+                                                        if (len > 4) {
+                                                            if (inputLine.length() > 36) {
                                                                 String text;
-                                                                if(args[3].equals("result")){
+                                                                if (args[3].equals("result")) {
                                                                     text = inputLine.substring(36);
-                                                                }
-                                                                else{
+                                                                } else {
                                                                     text = inputLine.substring(42);
                                                                 }
 
                                                                 System.out.println("Got files list...");
                                                                 String[] files = text.split("&&nex&t&");
                                                                 References.filesList = files;
-                                                                if(args[3].equals("result")){
+                                                                if (args[3].equals("result")) {
                                                                     displayLine = "The files list:" + "\n";
-                                                                    for (int i = 0; i < files.length; i++){
+                                                                    for (int i = 0; i < files.length; i++) {
                                                                         displayLine += files[i];
-                                                                        if(i<files.length-1){
+                                                                        if (i < files.length - 1) {
                                                                             displayLine += "&l&ine&";
                                                                         }
                                                                     }
-                                                                    displayLine+="\n\n";
+                                                                    displayLine += "\n\n";
                                                                     //displayLine += " ";
-                                                                }
-                                                                else{
+                                                                } else {
                                                                     displayLine = "";
                                                                 }
-                                                            }
-                                                            else{
-                                                                if(args[3].equals("result")){
+                                                            } else {
+                                                                if (args[3].equals("result")) {
                                                                     displayLine = "There are no files.";
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if(args[2].equals("folderslist")) {
-                                                if(len>3) {
-                                                    if(args[3].equals("result") || args[3].equals("silentresult")) {
-                                                        if(len>4){
-                                                            if(inputLine.length()>38){
+                                            } else if (args[2].equals("folderslist")) {
+                                                if (len > 3) {
+                                                    if (args[3].equals("result") || args[3].equals("silentresult")) {
+                                                        if (len > 4) {
+                                                            if (inputLine.length() > 38) {
                                                                 String text;
-                                                                if(args[3].equals("result")){
+                                                                if (args[3].equals("result")) {
                                                                     text = inputLine.substring(38);
-                                                                }
-                                                                else{
+                                                                } else {
                                                                     text = inputLine.substring(44);
                                                                 }
                                                                 System.out.println("Got folders list...");
                                                                 String[] folders = text.split("&&nex&t&");
                                                                 References.foldersList = folders;
-                                                                if(args[3].equals("result")){
+                                                                if (args[3].equals("result")) {
                                                                     displayLine = "The folders list:" + "\n";
-                                                                    for (int i = 0; i < folders.length; i++){
+                                                                    for (int i = 0; i < folders.length; i++) {
                                                                         displayLine += folders[i];
-                                                                        if(i<folders.length-1){
+                                                                        if (i < folders.length - 1) {
                                                                             displayLine += "&l&ine&";
                                                                         }
                                                                     }
-                                                                    displayLine+="\n\n";
+                                                                    displayLine += "\n\n";
                                                                     //displayLine += " ";
-                                                                }
-                                                                else{
+                                                                } else {
                                                                     displayLine = "";
                                                                 }
-                                                            }
-                                                            else{
-                                                                if(args[3].equals("result")){
+                                                            } else {
+                                                                if (args[3].equals("result")) {
                                                                     displayLine = "There are no folders.";
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if(args[2].equals("nonfolderslist")) {
-                                                if(len>3) {
-                                                    if(args[3].equals("result") || args[3].equals("silentresult")) {
-                                                        if(len>4){
-                                                            if(inputLine.length()>41){
+                                            } else if (args[2].equals("nonfolderslist")) {
+                                                if (len > 3) {
+                                                    if (args[3].equals("result") || args[3].equals("silentresult")) {
+                                                        if (len > 4) {
+                                                            if (inputLine.length() > 41) {
                                                                 String text;
-                                                                if(args[3].equals("result")){
+                                                                if (args[3].equals("result")) {
                                                                     text = inputLine.substring(41);
-                                                                }
-                                                                else{
+                                                                } else {
                                                                     text = inputLine.substring(47);
                                                                 }
                                                                 System.out.println("Got non-folders list...");
                                                                 String[] files = text.split("&&nex&t&");
                                                                 References.nonFoldersList = files;
-                                                                if(args[3].equals("result")){
-                                                                        displayLine = "The non-folders list:" + "&l&ine&";
-                                                                        for (int i = 0; i < files.length; i++) {
-                                                                            displayLine += files[i];
-                                                                            if (i < files.length - 1) {
-                                                                                displayLine += "&l&ine&";
-                                                                            }
+                                                                if (args[3].equals("result")) {
+                                                                    displayLine = "The non-folders list:" + "&l&ine&";
+                                                                    for (int i = 0; i < files.length; i++) {
+                                                                        displayLine += files[i];
+                                                                        if (i < files.length - 1) {
+                                                                            displayLine += "&l&ine&";
                                                                         }
-                                                                        displayLine+="\n\n";
+                                                                    }
+                                                                    displayLine += "\n\n";
 
                                                                     //displayLine += " ";
-                                                                }
-                                                                else{
+                                                                } else {
                                                                     displayLine = "";
                                                                 }
-                                                            }
-                                                            else{
-                                                                if(args[3].equals("result")) {
+                                                            } else {
+                                                                if (args[3].equals("result")) {
                                                                     displayLine = "There are no non-folder files!";
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if(args[2].equals("changelocation")) {
+                                            } else if (args[2].equals("changelocation")) {
                                                 //System.out.println("changelocation");
-                                                if(len>3) {
-                                                    if(args[3].equals("result")){
-                                                        if(len>4) {
+                                                if (len > 3) {
+                                                    if (args[3].equals("result")) {
+                                                        if (len > 4) {
                                                             if (args[4].equals("accepted")) {
                                                                 displayLine = "";
-                                                                if(len>5) {
+                                                                if (len > 5) {
                                                                     if (args[5].startsWith("path=")) {
                                                                         String path = inputLine.substring(50);
                                                                         String[] parts = path.split(getSafeSeparator());
-                                                                        String folder = parts[parts.length-1];
+                                                                        String folder = parts[parts.length - 1];
                                                                         //System.out.println("path=");
-                                                                        if(parts.length==1 && path.contains(References.systemSeparator)){
+                                                                        if (parts.length == 1 && path.contains(References.systemSeparator)) {
                                                                             folder += References.systemSeparator;
                                                                         }
                                                                         References.lastConsoleOutput += "Entered directory \"" + folder + "\"\n\n"; //"Entered folder \"" + folder + "\"";
@@ -321,8 +316,7 @@ public class SocketListener implements Runnable {
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if(args[2].equals("executefile")) {
+                                            } else if (args[2].equals("executefile")) {
                                                 if (len > 3) {
                                                     if (args[3].equals("result")) {
                                                         if (len > 4) {
@@ -336,6 +330,18 @@ public class SocketListener implements Runnable {
                                                                 References.showSendInputToExecBtn = true;
                                                                 References.processRunning = true;
                                                                 //later
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            } else if (args[2].equals("dirinfo")) {
+                                                if (len > 3) {
+                                                    if (args[3].equals("result")) {
+                                                        if (len > 4) {
+                                                            if (args[4].startsWith("info=")) {
+                                                                String text = inputLine.substring(34);
+                                                                System.out.println("Got directory info");
+                                                                displayLine = text;
                                                             }
                                                         }
                                                     }
@@ -413,7 +419,8 @@ public class SocketListener implements Runnable {
         }
     }
 
-    private void onDisconnect() {
+    public static void onDisconnect() {
+        System.out.println("Something called onDisconnect");
         References.disconnectedAlreadyExtraInfo = true;
         References.connected = false;
         //References.socketListener.interrupt(); // NPO

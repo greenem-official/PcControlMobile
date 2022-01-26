@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
             if (!alreadyConnected) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
-                References.socketSender = new SocketSender();
+                References.sender = new SocketSender();
                 //Freezes the thread                                                                                 <-- not good (there are multiple of these problems)
-                References.socketSender.startConnection(References.ip, Integer.valueOf(References.port));
+                References.sender.startConnection(References.ip, Integer.valueOf(References.port));
                 //If not successful
-                if(!References.socketSender.initialized)
+                if(!References.sender.initialized)
                 {
                     System.out.println("Socket sender IS NOT initialized! (MainActivity)");
                     return;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 References.socketListener.start();
             }
             //sender.sendMessage("android is connecting", false);
-            References.socketSender.sendMessage("$auth.request.password=" + References.password);
+            References.sender.sendMessage("$auth.request.password=" + References.password);
             //sender.sendMessage("ugfasdfg", false);
             alreadyConnected = true;
             References.wrongPassword = false;
@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 References.connected = true;
                 References.wrongPassword = false;
                 System.out.println("4 (from main activity)");
-                System.out.println(References.socketSender + "");
-                References.socketSender.sendMessage("$system.files.getlocation.request");
-                References.socketSender.sendMessage("$system.files.getpathseparator.request");
+                System.out.println(References.sender + "");
+                References.sender.sendMessage("$system.files.getlocation.request");
+                References.sender.sendMessage("$system.files.getpathseparator.request");
                 References.reloadFoldersFilesList();
                 References.handler.postDelayed(HeartBeats.loop, 20000);
             } else if (References.authAccepted == 0) {

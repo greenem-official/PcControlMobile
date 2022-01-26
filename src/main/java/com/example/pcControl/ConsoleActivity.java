@@ -334,13 +334,13 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()){
                             case R.id.item_tasklist:
-                                References.socketSender.sendMessage("$system.getinfo.tasklist.request");
+                                References.sender.sendMessage("$system.getinfo.tasklist.request");
                                 return true;
                             case R.id.item_shutdown_turnoff:
-                                References.socketSender.sendMessage("$system.management.shutdown.usual.request");
+                                References.sender.sendMessage("$system.management.shutdown.usual.request");
                                 return true;
                             case R.id.item_shutdown_restart:
-                                References.socketSender.sendMessage("$system.management.shutdown.restart.request");
+                                References.sender.sendMessage("$system.management.shutdown.restart.request");
                                 return true;
                             default:
                                 return false;
@@ -391,19 +391,19 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                                 //References.reloadFoldersFilesList();
                                 return true;
                             case R.id.item_allfileslist:
-                                References.socketSender.sendMessage("$system.files.fileslist.request");
+                                References.sender.sendMessage("$system.files.fileslist.request");
                                 return true;
                             case R.id.item_folderslist:
-                                References.socketSender.sendMessage("$system.files.folderslist.request");
+                                References.sender.sendMessage("$system.files.folderslist.request");
                                 return true;
                             case R.id.item_nonfolderslist:
-                                References.socketSender.sendMessage("$system.files.nonfolderslist.request");
+                                References.sender.sendMessage("$system.files.nonfolderslist.request");
                                 return true;
                             case R.id.item_printLocation:
                                 printCurrentLocation();
                                 return true;
                             case R.id.item_folderinfo:
-
+                                requestFolderInfo();
                                 return true;
                             case R.id.item_execute:
                                 openExecuteDialog();
@@ -727,7 +727,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         fullPath = fullPath.trim();
         folder = folder.trim();
 
-        References.socketSender.sendMessage("$system.files.changelocation.request.new=" + fullPath);
+        References.sender.sendMessage("$system.files.changelocation.request.new=" + fullPath);
 
         /*if(fullPath.startsWith(References.currentFolder)) {
 //            String lastFolder = folder;
@@ -764,7 +764,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
 
     @Override
     public void applyDataExecute(String file) {
-        References.socketSender.sendMessage("$system.files.executefile.request.file=" + file);
+        References.sender.sendMessage("$system.files.executefile.request.file=" + file);
         References.lastConsoleOutput += "Sending request to start \"" + file + "\"\n";
         /*boolean contains = false;
         for (int i = 0; i < References.nonFoldersList.length; i++) {
@@ -817,19 +817,19 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 }
 
                 if (isRowButtonExtraMcMessageClicked) {
-                    References.socketSender.sendMessage("$mcmessage.normal.text=" + text);
+                    References.sender.sendMessage("$mcmessage.normal.text=" + text);
                     consoleText = "Sending to the MC server: " + consoleText;
                     actionDone = true;
                 } else if (isRowButtonExtraMcCommandClicked) {
-                    References.socketSender.sendMessage("$mccommand.normal.text=" + text);
+                    References.sender.sendMessage("$mccommand.normal.text=" + text);
                     consoleText = "Executing at the MC server: " + consoleText;
                     actionDone = true;
                 } else if (isRowButtonExtraExecInputClicked) {
-                    References.socketSender.sendMessage("$system.execution.input=" + text);
+                    References.sender.sendMessage("$system.execution.input=" + text);
                     consoleText = "[INPUT] " + text;
                     actionDone = true;
                 } else if (text.startsWith("$")) { //in-app commands
-                    References.socketSender.sendMessage("" + text);
+                    References.sender.sendMessage("" + text);
                     if (text.equals("$system.getinfo.tasklist.request")) {
                         consoleText = "> [Request to the system to display the task list]";
                     } else if (text.equals("$system.management.shutdown.usual.request")) {
@@ -842,7 +842,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 //}
                 else {
                     if (text.split(" ")[0].toLowerCase(Locale.ROOT).equals("send")) {
-                        References.socketSender.sendMessage("$rscmessage.normal.text=" + text.substring(5));
+                        References.sender.sendMessage("$rscmessage.normal.text=" + text.substring(5));
                         //consoleText = "Sending to RSC desktop app: " + consoleText;
                         actionDone = true;
                     }
@@ -866,7 +866,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                             //    secondaryText = "You can't use it in main directory.\n";
                             //}
                             //else {
-                                References.socketSender.sendMessage("$system.files.changelocation.request.up");
+                                References.sender.sendMessage("$system.files.changelocation.request.up");
                                 /*String s = References.currentFolder.replaceAll("\\\\+", "/").substring(0, References.currentFolder.length() -
                                                 (References.currentFolder.split("/")[(References.currentFolder.split("/")).length - 1]).length());
                                 //String s = References.currentFolder.substring(0, References.currentFolder.length() - (References.currentFolder.
@@ -879,7 +879,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                         }
                         else {
                             if (text.contains("/") || text.contains("\\")) {
-                                References.socketSender.sendMessage("$system.files.changelocation.request.new=" + text.substring(3)); // tolowercase
+                                References.sender.sendMessage("$system.files.changelocation.request.new=" + text.substring(3)); // tolowercase
                             } else {
                                 String[] text1 = text.split("/");
                                 String[] text2 = text.split("\\\\");
@@ -888,14 +888,14 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                                     if(b1){
                                         text+=References.systemSeparator;
                                     }
-                                    References.socketSender.sendMessage("$system.files.changelocation.request.new=" + text.substring(3));
+                                    References.sender.sendMessage("$system.files.changelocation.request.new=" + text.substring(3));
                                 }
                                 else {
                                     String maybeSlash = "";
                                     if (!References.currentFolder.endsWith("\\") && !References.currentFolder.endsWith("/")) {
                                         maybeSlash = References.systemSeparator;
                                     }
-                                    References.socketSender.sendMessage("$system.files.changelocation.request.new=" + (References.currentFolder + maybeSlash + text.substring(3)));
+                                    References.sender.sendMessage("$system.files.changelocation.request.new=" + (References.currentFolder + maybeSlash + text.substring(3)));
                                 }
                             }
                         }
@@ -905,17 +905,17 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                         References.lastConsoleOutput += consoleText + "\n";
                         consoleText = "";
                         String whatToStart = text.substring((text.split(" ")[0]).length()+1);
-                        References.socketSender.sendMessage("$system.files.executefile.request.file=" + whatToStart);
+                        References.sender.sendMessage("$system.files.executefile.request.file=" + whatToStart);
                         actionDone = true;
                     }
                     else if (text.equalsIgnoreCase("ls") || text.equalsIgnoreCase("dir")) {
                         References.lastConsoleOutput += consoleText + "\n";
                         consoleText = "";
-                        References.socketSender.sendMessage("$system.files.fileslist.request");
+                        References.sender.sendMessage("$system.files.fileslist.request");
                         actionDone = true;
                     }
                     else {
-                        References.socketSender.sendMessage("$rsccommand.normal.text=" + text);
+                        References.sender.sendMessage("$rsccommand.normal.text=" + text);
                     }
                 }
                 if(!consoleText.trim().equals("")) {
@@ -937,7 +937,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
     }
 
     public static void stopRemoteExecution(){
-        References.socketSender.sendMessage("$system.execution.stop.request");
+        References.sender.sendMessage("$system.execution.stop.request");
     }
 
 //    public static void newInputFocus(){
@@ -950,4 +950,8 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
 //        InputMethodManager imm = (InputMethodManager) get getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 //    }
+
+    public void requestFolderInfo(){
+        References.sender.sendMessage("$system.files.dirinfo.request");
+    }
 }

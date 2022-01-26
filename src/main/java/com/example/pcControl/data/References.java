@@ -16,7 +16,7 @@ public class References {
     public static boolean hasStoredIpSettings = false;
     public static String sharedPrefs = "sharedPrefs";
 
-    public static SocketSender socketSender;
+    public static SocketSender sender;
     public static Thread socketListener;
     public static Thread socketReconnecter;
 
@@ -49,9 +49,9 @@ public class References {
     public static String systemSeparator = "/";
 
     public static void reloadFoldersFilesList(){
-        References.socketSender.sendMessage("$system.files.fileslist.request.silent=true");
-        References.socketSender.sendMessage("$system.files.folderslist.request.silent=true");
-        References.socketSender.sendMessage("$system.files.nonfolderslist.request.silent=true");
+        References.sender.sendMessage("$system.files.fileslist.request.silent=true");
+        References.sender.sendMessage("$system.files.folderslist.request.silent=true");
+        References.sender.sendMessage("$system.files.nonfolderslist.request.silent=true");
     }
 
     public static boolean processRunning = false;
