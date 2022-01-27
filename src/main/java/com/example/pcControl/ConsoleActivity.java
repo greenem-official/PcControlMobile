@@ -852,6 +852,10 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                         printCurrentLocation();
                         actionDone = true;
                     }
+                    else if (text.toLowerCase(Locale.ROOT).equals("stop size")){
+                        References.sender.sendMessage("$system.files.dirinfo.stopCalculatingSize");
+                        consoleText = "Stopping the sizes calculation";
+                    }
                     else if (text.toLowerCase(Locale.ROOT).startsWith("stop") || text.toLowerCase(Locale.ROOT).startsWith("exit") || text.toLowerCase(Locale.ROOT).startsWith("q")) {
                         References.lastConsoleOutput += consoleText + "\n";
                         consoleText = "";

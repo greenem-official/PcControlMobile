@@ -132,6 +132,13 @@ public class SocketListener implements Runnable {
                                                             }
                                                         }
                                                     }
+                                                    if(args[3].equals("restart")) {
+                                                        if(len>4){
+                                                            if(args[4].equals("accepted")) {
+                                                                displayLine = "Restarting the computer..."; //result.replaceAll("&l&ine&", "\n");
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -342,6 +349,19 @@ public class SocketListener implements Runnable {
                                                                 String text = inputLine.substring(34);
                                                                 System.out.println("Got directory info");
                                                                 displayLine = text;
+                                                            }
+                                                            else if (args[4].startsWith("sizeinfo=")) {
+                                                                String text = inputLine.substring(38);
+                                                                System.out.println("Got directory size");
+                                                                String[] partOfCurrentPath = References.currentFolder.replace("\\", "/").split("/");
+                                                                String currentFolder = partOfCurrentPath[partOfCurrentPath.length-1];
+                                                                if(currentFolder.endsWith(":")){
+                                                                    currentFolder += References.systemSeparator;
+                                                                }
+                                                                displayLine = "The folder \"" + partOfCurrentPath[partOfCurrentPath.length-1] + "\" is " + text;
+                                                                if(text.startsWith(">")) {
+                                                                    displayLine += " (deep scan takes too much time)";
+                                                                }
                                                             }
                                                         }
                                                     }
