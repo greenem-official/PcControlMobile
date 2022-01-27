@@ -19,7 +19,6 @@ import com.example.pcControl.tools.LoadData;
 
 public class MainActivity extends AppCompatActivity {
     public static volatile MainActivity instance;
-    private boolean alreadyConnected = false;
     private boolean firstLaunch = true;
 
     public static MainActivity getInstance(){
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(References.ip!=null && References.port!=null && References.password!=null &&
                 !References.ip.equals("") && !References.port.equals("") && !References.password.equals("")) {
-            if (!alreadyConnected) {
+            if (!References.alreadyConnectedT) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
             }
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(getApplicationContext(), "Not enough data to connect", Toast.LENGTH_SHORT);
-            alreadyConnected = false;
+            References.alreadyConnectedT = false;
         }
     }
 
@@ -81,16 +80,17 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             boolean done = false;
             GeneralLogger.log("connectionFirst");
-            if (!alreadyConnected) {
+            if (!References.alreadyConnectedT) {
                 References.sender = new SocketSender();
                 //Freezes the thread                                                                                 <-- not good (there are multiple of these problems)
+                GeneralLogger.log("connectionFirst startConnection");
                 References.sender.startConnection(References.ip, Integer.valueOf(References.port));
+                GeneralLogger.log("connectionFirst startedConnection");
                 //If not successful
                 if(!References.sender.initialized)
                 {
-                    System.out.println("Socket sender IS NOT initialized! (MainActivity)");
+                    System.out.println("Socket sender WAS NOT initialized! (MainActivity)");
                     connectionFirst.run();
-                    return;
                 }
                 else{
                     References.socketListener = new Thread(SocketListener.getInstance());
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     //sender.sendMessage("android is connecting", false);
                     References.sender.sendMessage("$auth.request.password=" + References.password);
                     //sender.sendMessage("ugfasdfg", false);
-                    alreadyConnected = true;
+                    References.alreadyConnectedT = true; // WHY?
                     References.wrongPassword = false;
                     loopConnectionWait.run();
                     //checkPwdGoToConsoleScreen.run();
@@ -124,9 +124,14 @@ public class MainActivity extends AppCompatActivity {
             GeneralLogger.log("loopConnectionWait");
 //            System.out.println(wrongPassword);
 //            System.out.println(References.connected);
-            if(References.wrongPassword) return;
-            System.out.println(6);
+            if(References.wrongPassword) {
+                References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());
+                GeneralLogger.log("Interrupting thread (loopConnectionWait)");
+                Thread.currentThread().interrupt();
+                return;
+            }
             if(References.connected) {
+                GeneralLogger.log("loopConnectionWait References.connected");
                 try {
                     Thread.currentThread().sleep(200);
                 } catch (InterruptedException e) {
@@ -136,6 +141,14 @@ public class MainActivity extends AppCompatActivity {
                 //References.handler.postDelayed(checkPwdGoToConsoleScreen, 200);
             }
             else {
+                GeneralLogger.log("loopConnectionWait NOT References.connected");
+
+                if(References.wrongPassword) {
+                    GeneralLogger.log("Interrupting thread (loopConnectionWait more like end)");
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+
                 try {
                     Thread.currentThread().sleep(200);
                 } catch (InterruptedException e) {
@@ -166,12 +179,15 @@ public class MainActivity extends AppCompatActivity {
             } else if (References.authAccepted == 0) {
                 System.out.println(5);
                 References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());
-                alreadyConnected = false;
+                References.alreadyConnectedT = false;
                 References.connected = false;
                 References.wrongPassword = true;
+                GeneralLogger.log("Interrupting thread (checkPwdGoToConsoleScreen)");
+                Thread.currentThread().interrupt();
+                return;
             } else {
                 References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "General error", Toast.LENGTH_SHORT).show());
-                alreadyConnected = false;
+                References.alreadyConnectedT = false;
                 References.connected = false;
             }
         }

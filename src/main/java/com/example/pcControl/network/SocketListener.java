@@ -1,5 +1,8 @@
 package com.example.pcControl.network;
 
+import android.app.Application;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.net.SocketException;
 
@@ -23,29 +26,34 @@ public class SocketListener implements Runnable {
         try {
             String inputLine = "";
             String displayLine = "";
-            while (inputLine != null) {
-                SocketSender sender = References.sender;
+            while (inputLine != null && !References.socket.isClosed()) {
                 try {
                     inputLine = References.inSocket.readLine();
                     //inputLine = new String(inputLine.getBytes("UTF-8"), "windows-1251"); //Charset.forName("windows-1252")    StandardCharsets.UTF_8
                 }
                 catch (SocketException e){
-                    System.out.println("Socket exception debug: " + e);
-                    if(References.sender.initialized) { // or .connected?
-                        onDisconnect();
+                    if(!References.socket.isClosed()) {
+                        System.out.println("Socket exception debug: " + e);
+                        if (References.sender.initialized) { // or .connected?
+                            onDisconnect();
+                        }
                     }
                     break;
                 }
                 catch (IOException e){
-                    System.out.println("IOException debug: " + e);
-                    if(References.sender.initialized) {
-                        onDisconnect();
+                    if(!References.socket.isClosed()) {
+                        System.out.println("IOException debug: " + e);
+                        if (References.sender.initialized) {
+                            onDisconnect();
+                        }
                     }
                     break;
                 }
                 catch (NullPointerException e){
-                    System.out.println("NullPointerException debug: " + e);
-                    onDisconnect();
+                    if(!References.socket.isClosed()) {
+                        System.out.println("NullPointerException debug: " + e);
+                        onDisconnect();
+                    }
                     break;
                 }
                 finally {
@@ -71,11 +79,15 @@ public class SocketListener implements Runnable {
                                         if(len>2) {
                                             if(args[2].equals("accepted")) {
                                                 References.authAccepted = 1;
+                                                References.wrongPassword = false;
                                                 displayLine = "Connected successfully\n ";
                                                 //displayLine = null;
                                             }
                                             else if(args[2].equals("denied")) {
                                                 References.authAccepted = 0;
+                                                References.wrongPassword = true;
+                                                References.alreadyConnectedT = false;
+                                                //References.handler.post((Runnable) () -> Toast.makeText( getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());
                                                 displayLine = "Unable to connect: wrong password";
                                             }
                                         }
@@ -379,7 +391,7 @@ public class SocketListener implements Runnable {
                             }
                         }
                         else {
-                            sender.sendMessage("$rcsmessage.error.general");
+                            References.sender.sendMessage("$rcsmessage.error.general");
                         }
                     }
 

@@ -48,6 +48,7 @@ public class SocketSender {
         } catch (SocketException e) {
             try {
                 socket.close();
+                socket = null;
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

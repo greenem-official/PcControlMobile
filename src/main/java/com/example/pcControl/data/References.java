@@ -60,6 +60,8 @@ public class References {
 
     public static boolean showSendInputToExecBtn = false;
 
+    public static boolean alreadyConnectedT = false;
+
     //debugSettings
     public static boolean printConnectionDetails = true;
     public static boolean printScreenDeltaMoveNumber = false;
