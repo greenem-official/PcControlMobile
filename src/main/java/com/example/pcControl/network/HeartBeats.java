@@ -15,7 +15,7 @@ public class HeartBeats {
             }
             if(References.connected && References.sender!=null && References.sender.initialized){
                 References.sender.sendMessage("$heartbeat.check");
-                References.handler.postDelayed(loop, 10000);
+                References.handler.postDelayed(loop, References.heartBeatsDelayMillis);
             }
         }
     };

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.pcControl.console.GeneralLogger;
 import com.example.pcControl.data.References;
 import com.example.pcControl.network.HeartBeats;
 import com.example.pcControl.network.SocketListener;
@@ -57,11 +58,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect(){
+        if (References.handler == null) {
+            References.handler = new Handler();
+        }
         if(References.ip!=null && References.port!=null && References.password!=null &&
                 !References.ip.equals("") && !References.port.equals("") && !References.password.equals("")) {
             if (!alreadyConnected) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
+            }
+            Thread theThread = new Thread(connectionFirst);
+            theThread.start();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Not enough data to connect", Toast.LENGTH_SHORT);
+            alreadyConnected = false;
+        }
+    }
+
+    private Runnable connectionFirst = new Runnable() {
+        @Override
+        public void run() {
+            boolean done = false;
+            GeneralLogger.log("connectionFirst");
+            if (!alreadyConnected) {
                 References.sender = new SocketSender();
                 //Freezes the thread                                                                                 <-- not good (there are multiple of these problems)
                 References.sender.startConnection(References.ip, Integer.valueOf(References.port));
@@ -69,30 +89,27 @@ public class MainActivity extends AppCompatActivity {
                 if(!References.sender.initialized)
                 {
                     System.out.println("Socket sender IS NOT initialized! (MainActivity)");
+                    connectionFirst.run();
                     return;
+                }
+                else{
+                    References.socketListener = new Thread(SocketListener.getInstance());
+                    References.socketListener.start();
+                    //sender.sendMessage("android is connecting", false);
+                    References.sender.sendMessage("$auth.request.password=" + References.password);
+                    //sender.sendMessage("ugfasdfg", false);
+                    alreadyConnected = true;
+                    References.wrongPassword = false;
+                    loopConnectionWait.run();
+                    //checkPwdGoToConsoleScreen.run();
                 }
             }
 
-            if (!alreadyConnected) {
-                References.socketListener = new Thread(SocketListener.getInstance());
-                References.socketListener.start();
-            }
-            //sender.sendMessage("android is connecting", false);
-            References.sender.sendMessage("$auth.request.password=" + References.password);
-            //sender.sendMessage("ugfasdfg", false);
-            alreadyConnected = true;
-            References.wrongPassword = false;
+            //loopConnectionWait.run();
 
-            if (References.handler == null) {
-                References.handler = new Handler();
-            }
-            References.handler.postDelayed(loopConnectionWait, 20);
+            //References.handler.postDelayed(loopConnectionWait, 100);
         }
-        else{
-            Toast.makeText(getApplicationContext(), "Not enough data to connect", Toast.LENGTH_SHORT);
-            alreadyConnected = false;
-        }
-    }
+    };
 
     public void loadOnLaunchData(){
         References.ip = LoadData.loadString(getSharedPreferences(References.sharedPrefs, MODE_PRIVATE), "settings_main_ip");
@@ -104,15 +121,28 @@ public class MainActivity extends AppCompatActivity {
     private Runnable loopConnectionWait = new Runnable(){
         @Override
         public void run() {
+            GeneralLogger.log("loopConnectionWait");
 //            System.out.println(wrongPassword);
 //            System.out.println(References.connected);
             if(References.wrongPassword) return;
             System.out.println(6);
             if(References.connected) {
-                References.handler.postDelayed(checkPwdGoToConsoleScreen, 200);
+                try {
+                    Thread.currentThread().sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkPwdGoToConsoleScreen.run();
+                //References.handler.postDelayed(checkPwdGoToConsoleScreen, 200);
             }
-            if(!References.connected){
-                References.handler.postDelayed(loopConnectionWait, 500);
+            else {
+                try {
+                    Thread.currentThread().sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                loopConnectionWait.run();
+                //References.handler.postDelayed(loopConnectionWait, 200);
             }
         }
     };
@@ -120,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable checkPwdGoToConsoleScreen = new Runnable() {
         @Override
         public void run() {
+            GeneralLogger.log("checkPwdGoToConsoleScreen, References.authAccepted = " + References.authAccepted);
             if (References.authAccepted == 1) {
                 Intent startIntent = new Intent(getApplicationContext(), ConsoleActivity.class);
 //                setContentView(R.layout.settings_view);
@@ -131,15 +162,15 @@ public class MainActivity extends AppCompatActivity {
                 References.sender.sendMessage("$system.files.getlocation.request");
                 References.sender.sendMessage("$system.files.getpathseparator.request");
                 References.reloadFoldersFilesList();
-                References.handler.postDelayed(HeartBeats.loop, 20000);
+                References.handler.postDelayed(HeartBeats.loop, References.heartBeatsDelayMillis);
             } else if (References.authAccepted == 0) {
                 System.out.println(5);
-                Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());
                 alreadyConnected = false;
                 References.connected = false;
                 References.wrongPassword = true;
             } else {
-                Toast.makeText(getApplicationContext(), "General error", Toast.LENGTH_SHORT).show();
+                References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "General error", Toast.LENGTH_SHORT).show());
                 alreadyConnected = false;
                 References.connected = false;
             }

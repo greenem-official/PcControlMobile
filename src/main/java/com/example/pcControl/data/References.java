@@ -39,6 +39,8 @@ public class References {
     public static boolean printHeartBeats = true;
     public static int maxOutputLines = 250;
 
+    public static int heartBeatsDelayMillis = 10000;
+
     public static String currentFolder = "";
     public static String[] filesList = null;
     public static String[] foldersList = null;

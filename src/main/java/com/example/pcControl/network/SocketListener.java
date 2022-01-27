@@ -31,14 +31,20 @@ public class SocketListener implements Runnable {
                 }
                 catch (SocketException e){
                     System.out.println("Socket exception debug: " + e);
-                    onDisconnect();
+                    if(References.sender.initialized) { // or .connected?
+                        onDisconnect();
+                    }
                     break;
                 }
                 catch (IOException e){
-                    onDisconnect();
+                    System.out.println("IOException debug: " + e);
+                    if(References.sender.initialized) {
+                        onDisconnect();
+                    }
                     break;
                 }
                 catch (NullPointerException e){
+                    System.out.println("NullPointerException debug: " + e);
                     onDisconnect();
                     break;
                 }

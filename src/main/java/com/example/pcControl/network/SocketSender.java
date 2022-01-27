@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -25,9 +27,33 @@ public class SocketSender {
 
     public void startConnection(String ip, int port) {
         try {
-            socket = new Socket(ip, port);
-        } catch (ConnectException e) {
+            InetSocketAddress address = new InetSocketAddress(ip, port);
+            socket = new Socket();
+            int timeout = 3000;
+            socket.connect(address, timeout);
+
+            //socket = new Socket(ip, port);
+            //GeneralLogger.log("Socket Sender connected");
+            //GeneralLogger.log(socket.isConnected());
+        } catch (SocketTimeoutException e) {
+            try {
+                socket.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            // ignore if I remember right
+            // just in case
+            //References.connected = false;
             return;
+        } catch (SocketException e) {
+            try {
+                socket.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            return;
+        //} catch (ConnectException e) {
+        //    return;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -49,6 +75,7 @@ public class SocketSender {
                 References.socket = socket;
                 References.socketPort = port;
                 References.outputStream = outputStream;
+                //References.connected = true;
                 this.initialized = true;
             }
         }
