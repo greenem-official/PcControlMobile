@@ -57,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect(){
+        if(References.currentlyConnectingBusy){
+            return;
+        }
+        References.currentlyConnectingBusy = true;
+
         if (References.handler == null) {
             References.handler = new Handler();
         }
@@ -176,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 References.sender.sendMessage("$system.files.getpathseparator.request");
                 References.reloadFoldersFilesList();
                 References.handler.postDelayed(HeartBeats.loop, References.heartBeatsDelayMillis);
+                References.currentlyConnectingBusy = false;
             } else if (References.authAccepted == 0) {
                 System.out.println(5);
                 References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());

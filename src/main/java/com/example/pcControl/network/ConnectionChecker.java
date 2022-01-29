@@ -19,6 +19,8 @@ public class ConnectionChecker implements Runnable {
             System.out.println("Connection Checker loop");
             References.sender.stopConnection();
             References.sender = new SocketSender();
+            References.connected = false;
+            References.disconnectedAlreadyExtraInfo = true;
             References.sender.startConnection(References.ip, Integer.valueOf(References.port));
 
             // It DOES connect first try, because the entire thread was frozen                                  <--    (needs to be fixed)
@@ -43,12 +45,16 @@ public class ConnectionChecker implements Runnable {
             References.handler.postDelayed(() -> {
                 System.out.println("References.authAccepted = " + References.authAccepted);
                 if (References.authAccepted == 1) {
+                    References.justReconnectedT = true;
+                    References.firstConnectionT = false;
+                    System.out.println("justReconnected");
                     References.disconnectedAlreadyExtraInfo = false;
                     References.connected = true;
                     References.handler.postDelayed(HeartBeats.loop, 20000);
                     System.out.println("Exiting Connection Checker");
                     References.sender.sendMessage("$system.files.getlocation.request");
                     References.sender.sendMessage("$system.files.getpathseparator.request");
+                    References.changedPasswordAfterConnecting = false;
                     References.reloadFoldersFilesList();
                     return;
                 } else if (References.authAccepted == 0) {

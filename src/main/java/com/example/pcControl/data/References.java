@@ -32,6 +32,9 @@ public class References {
     public static boolean connected = false;
     public static boolean disconnectedAlreadyExtraInfo = false;
     public static boolean wrongPassword = false;
+    public static boolean justReconnectedT = false;
+    public static boolean firstConnectionT = true;
+    public static boolean currentlyConnectingBusy = false;
 
     public static Handler handler;
 
@@ -61,6 +64,8 @@ public class References {
     public static boolean showSendInputToExecBtn = false;
 
     public static boolean alreadyConnectedT = false;
+
+    public static boolean changedPasswordAfterConnecting = false;
 
     //debugSettings
     public static boolean printConnectionDetails = true;

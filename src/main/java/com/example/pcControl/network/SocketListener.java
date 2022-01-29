@@ -1,8 +1,5 @@
 package com.example.pcControl.network;
 
-import android.app.Application;
-import android.widget.Toast;
-
 import java.io.IOException;
 import java.net.SocketException;
 
@@ -80,7 +77,14 @@ public class SocketListener implements Runnable {
                                             if(args[2].equals("accepted")) {
                                                 References.authAccepted = 1;
                                                 References.wrongPassword = false;
+                                                System.out.println("justReconnected = " + References.justReconnectedT + "; firstConnection = " + References.firstConnectionT);
+                                                //if(References.justReconnected || References.firstConnection) {
                                                 displayLine = "Connected successfully\n ";
+                                                //}
+                                                //else {
+                                                //    displayLine = "";
+                                                //}
+                                                References.justReconnectedT = false;
                                                 //displayLine = null;
                                             }
                                             else if(args[2].equals("denied")) {
@@ -449,7 +453,7 @@ public class SocketListener implements Runnable {
                 //onDisconnect();
             }
             //System.out.println(References.authAccepted);
-            if(References.authAccepted==1) {
+            if(References.authAccepted==1 && References.alreadyConnectedT) {
                 References.lastConsoleOutput += "Connection lost, reconnecting...\n";
             }
         } catch (IOException e) {

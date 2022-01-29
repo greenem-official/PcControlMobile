@@ -30,6 +30,8 @@ import android.widget.TextView;
 import com.example.pcControl.data.References;
 import com.example.pcControl.dialogs.ExecuteDialog;
 import com.example.pcControl.dialogs.FilesDialog;
+import com.example.pcControl.network.SocketListener;
+import com.example.pcControl.tools.Stuff;
 
 import java.util.Locale;
 
@@ -52,7 +54,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
     private ImageButton scrollDownButton;
     private TextView connectionLostText;
     private Button cmdClearInputButton;
-    private Button fodersMenuOkButton;
+    private Button foldersMenuOkButton;
 
     private Button rowButtonExtraSpecialSymbols;
     private Button rowButtonExtraSystem;
@@ -521,6 +523,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
     private Runnable liteLoopNoDelay = new Runnable() {
         @Override
         public void run() {
+            //System.out.println("liteLoopNoDelay");
             if(cmdInput.getText().toString().equals("")){
                 fadingClearInputButtonToAlphaValue = 0f;
             }
@@ -553,6 +556,12 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 isRowButtonExtraExecInputClicked = false;
                 rowButtonExtraExecInput.setTextColor(getResources().getColor(R.color.maincoloratt1_specialbtns));
                 //Color.parseColor("#FF6200EE")
+            }
+
+            if (!References.connected || References.disconnectedAlreadyExtraInfo) {
+                connectionLostText.setVisibility(View.VISIBLE);
+            } else {
+                connectionLostText.setVisibility(View.INVISIBLE);
             }
 
             References.handler.postDelayed(liteLoopNoDelay, 1);
@@ -608,11 +617,6 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 //System.out.println("Changed console text");
                 if(References.printConnectionDetails) {
                     System.out.println("ConsoleActivity: connected = " + References.connected + "; disconnectedAlreadyExtraInfo = " + References.disconnectedAlreadyExtraInfo);
-                }
-                if (References.disconnectedAlreadyExtraInfo || !References.connected) {
-                    connectionLostText.setVisibility(View.VISIBLE);
-                } else {
-                    connectionLostText.setVisibility(View.INVISIBLE);
                 }
 
                 //time = Calendar.getInstance().getTimeInMillis();
@@ -696,6 +700,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
         }
         doKeyboardStuff();
         System.out.println("onBackPressed end " + keyboardOpen);
+        Stuff.doDisconnectWithoutReconnect();
         super.onBackPressed();
     }
 
