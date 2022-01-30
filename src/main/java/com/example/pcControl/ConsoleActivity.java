@@ -817,17 +817,17 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
             } else {
 
                 if (text.toLowerCase(Locale.ROOT).startsWith("send")) {
-                    consoleText = "[Sending \"" + text.substring(5) + "\" to the PC]";
+                    consoleText = "[Sending \"" + text.substring(5) + "\" to the PC]\n";
                     actionDone = true;
                 }
 
                 if (isRowButtonExtraMcMessageClicked) {
                     References.sender.sendMessage("$mcmessage.normal.text=" + text);
-                    consoleText = "Sending to the MC server: " + consoleText;
+                    consoleText = "Sending to the MC server: " + consoleText + "\n";
                     actionDone = true;
                 } else if (isRowButtonExtraMcCommandClicked) {
                     References.sender.sendMessage("$mccommand.normal.text=" + text);
-                    consoleText = "Executing at the MC server: " + consoleText;
+                    consoleText = "Executing at the MC server: " + consoleText + "\n";
                     actionDone = true;
                 } else if (isRowButtonExtraExecInputClicked) {
                     References.sender.sendMessage("$system.execution.input=" + text);
@@ -836,9 +836,9 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 } else if (text.startsWith("$")) { //in-app commands
                     References.sender.sendMessage("" + text);
                     if (text.equals("$system.getinfo.tasklist.request")) {
-                        consoleText = "> [Request to the system to display the task list]";
+                        consoleText = "> [Request to the system to display the task list]" + "\n";
                     } else if (text.equals("$system.management.shutdown.usual.request")) {
-                        consoleText = "> [Request to the system to SHUTDOWN]";
+                        consoleText = "> [Request to the system to SHUTDOWN]" + "\n";
                     }
                     actionDone = true;
                 }
@@ -859,7 +859,7 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                     }
                     else if (text.toLowerCase(Locale.ROOT).equals("stop size")){
                         References.sender.sendMessage("$system.files.dirinfo.stopCalculatingSize");
-                        consoleText = "Stopping the sizes calculation";
+                        consoleText = "Stopping the sizes calculation" + "\n";
                     }
                     else if (text.toLowerCase(Locale.ROOT).startsWith("stop") || text.toLowerCase(Locale.ROOT).startsWith("exit") || text.toLowerCase(Locale.ROOT).startsWith("q")) {
                         References.lastConsoleOutput += consoleText + "\n";
