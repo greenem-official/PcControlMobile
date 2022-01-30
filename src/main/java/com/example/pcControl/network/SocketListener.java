@@ -104,24 +104,25 @@ public class SocketListener implements Runnable {
                             if(args[0].equals("heartbeat")) {
                                 if (len > 1) {
                                     if (args[1].equals("timeout")) {
+                                        displayLine = "Got disconnected from the server, error code: 0x001" + "\n";
                                         onDisconnect(); // not tested
                                     }
                                 }
                             }
                             else if(args[0].equals("rscmessage")) {
-                                displayLine = "Message from the PC: " + inputLine.substring(12);
+                                displayLine = "Message from the PC: " + inputLine.substring(12) + "\n";
                             }
                             else if(args[0].equals("servermessage")) {
                                 if(len>1){
                                     if(args[1].startsWith("text=")){
-                                        displayLine = inputLine.substring(20);
+                                        displayLine = inputLine.substring(20) + "\n";
                                     }
                                 }
                             }
                             else if(args[0].equals("rsccommand")) {
                                 if(len>1){
                                     if(args[1].equals("unknown")) {
-                                        displayLine = "Unknown command!";
+                                        displayLine = "Unknown command!" + "\n";
                                     }
                                 }
                             }
@@ -135,7 +136,7 @@ public class SocketListener implements Runnable {
                                                         if(len>4){
                                                             if(args[4].startsWith("text=")){
                                                                 String result = "The list of currently running processes:\n" + inputLine.substring(37);
-                                                                displayLine = result; //result.replaceAll("&l&ine&", "\n");
+                                                                displayLine = result + "\n"; //result.replaceAll("&l&ine&", "\n");
                                                             }
                                                         }
                                                     }
@@ -150,14 +151,14 @@ public class SocketListener implements Runnable {
                                                     if(args[3].equals("usual")) {
                                                         if(len>4){
                                                             if(args[4].equals("accepted")) {
-                                                                displayLine = "Shutting down the computer..."; //result.replaceAll("&l&ine&", "\n");
+                                                                displayLine = "Shutting down the computer..." + "\n"; //result.replaceAll("&l&ine&", "\n");
                                                             }
                                                         }
                                                     }
                                                     if(args[3].equals("restart")) {
                                                         if(len>4){
                                                             if(args[4].equals("accepted")) {
-                                                                displayLine = "Restarting the computer..."; //result.replaceAll("&l&ine&", "\n");
+                                                                displayLine = "Restarting the computer..." + "\n"; //result.replaceAll("&l&ine&", "\n");
                                                             }
                                                         }
                                                     }
@@ -173,7 +174,7 @@ public class SocketListener implements Runnable {
                                             else if (args[2].equals("stopped")) {
                                                 if(len>3) {
                                                     if (args[3].equals("justend")) {
-                                                        displayLine = "Process stopped.";
+                                                        displayLine = "Process stopped." + "\n";
                                                         References.processRunning = false;
                                                     }
                                                 }
@@ -228,14 +229,14 @@ public class SocketListener implements Runnable {
                                                                             displayLine += "&l&ine&";
                                                                         }
                                                                     }
-                                                                    displayLine += "\n\n";
+                                                                    displayLine += "\n";
                                                                     //displayLine += " ";
                                                                 } else {
                                                                     displayLine = "";
                                                                 }
                                                             } else {
                                                                 if (args[3].equals("result")) {
-                                                                    displayLine = "There are no files.";
+                                                                    displayLine = "There are no files!" + "\n";
                                                                 }
                                                             }
                                                         }
@@ -263,14 +264,14 @@ public class SocketListener implements Runnable {
                                                                             displayLine += "&l&ine&";
                                                                         }
                                                                     }
-                                                                    displayLine += "\n\n";
+                                                                    displayLine += "\n";
                                                                     //displayLine += " ";
                                                                 } else {
                                                                     displayLine = "";
                                                                 }
                                                             } else {
                                                                 if (args[3].equals("result")) {
-                                                                    displayLine = "There are no folders.";
+                                                                    displayLine = "There are no folders!" + "\n";
                                                                 }
                                                             }
                                                         }
@@ -298,7 +299,7 @@ public class SocketListener implements Runnable {
                                                                             displayLine += "&l&ine&";
                                                                         }
                                                                     }
-                                                                    displayLine += "\n\n";
+                                                                    displayLine += "\n";
 
                                                                     //displayLine += " ";
                                                                 } else {
@@ -306,7 +307,7 @@ public class SocketListener implements Runnable {
                                                                 }
                                                             } else {
                                                                 if (args[3].equals("result")) {
-                                                                    displayLine = "There are no non-folder files!";
+                                                                    displayLine = "There are no non-folder files!" + "\n";
                                                                 }
                                                             }
                                                         }
@@ -328,7 +329,7 @@ public class SocketListener implements Runnable {
                                                                         if (parts.length == 1 && path.contains(References.systemSeparator)) {
                                                                             folder += References.systemSeparator;
                                                                         }
-                                                                        References.lastConsoleOutput += "Entered directory \"" + folder + "\"\n\n"; //"Entered folder \"" + folder + "\"";
+                                                                        References.lastConsoleOutput += "Entered directory \"" + folder + "\"\n"; //"Entered folder \"" + folder + "\"";
                                                                         References.currentFolder = path;
                                                                         References.reloadFoldersFilesList();
                                                                     }
@@ -338,7 +339,7 @@ public class SocketListener implements Runnable {
                                                                 if (len > 5) {
                                                                     if (args[5].startsWith("old=")) {
                                                                         References.currentFolder = inputLine.substring(47);
-                                                                        displayLine = "Such folder doesn't exist.&l&ine&";
+                                                                        displayLine = "Such folder doesn't exist.&l&ine&" + "\n";
                                                                     }
                                                                 }
                                                             }
@@ -350,12 +351,12 @@ public class SocketListener implements Runnable {
                                                     if (args[3].equals("result")) {
                                                         if (len > 4) {
                                                             if (args[4].equals("notfound")) {
-                                                                displayLine = "File not found!";
+                                                                displayLine = "File not found!" + "\n";
                                                                 References.showSendInputToExecBtn = false;
                                                                 References.processRunning = false;
                                                             }
                                                             if (args[4].equals("success")) {
-                                                                displayLine = "Starting the file...";
+                                                                displayLine = "Starting the file..." + "\n";
                                                                 References.showSendInputToExecBtn = true;
                                                                 References.processRunning = true;
                                                                 //later
@@ -370,7 +371,7 @@ public class SocketListener implements Runnable {
                                                             if (args[4].startsWith("info=")) {
                                                                 String text = inputLine.substring(34);
                                                                 System.out.println("Got directory info");
-                                                                displayLine = text;
+                                                                displayLine = text + "\n";
                                                             }
                                                             else if (args[4].startsWith("sizeinfo=")) {
                                                                 String text = inputLine.substring(38);
@@ -382,7 +383,7 @@ public class SocketListener implements Runnable {
                                                                 }
                                                                 displayLine = "The folder \"" + partOfCurrentPath[partOfCurrentPath.length-1] + "\" is " + text;
                                                                 if(text.startsWith(">")) {
-                                                                    displayLine += " (deep scan takes too much time)";
+                                                                    displayLine += " (deep scan takes too much time)" + "\n";
                                                                 }
                                                             }
                                                         }
