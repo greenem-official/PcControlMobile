@@ -58,6 +58,7 @@ public class ConnectionChecker implements Runnable {
                     References.reloadFoldersFilesList();
                     return;
                 } else if (References.authAccepted == 0) {
+//                    References.alreadyConnectedT = false;
                     System.out.println("Could not reconnect, Wrong password");
                     System.out.println("Exiting Connection Checker");
                     return;

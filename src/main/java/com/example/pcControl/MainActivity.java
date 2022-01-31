@@ -58,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void connect(){
         if(References.currentlyConnectingBusy){
+            System.out.println("currentlyConnectingBusy");
             return;
         }
+
         References.currentlyConnectingBusy = true;
 
         if (References.handler == null) {
@@ -133,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
                 References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());
                 GeneralLogger.log("Interrupting thread (loopConnectionWait)");
                 Thread.currentThread().interrupt();
+                References.currentlyConnectingBusy = false;
+                References.alreadyConnectedT = false;
                 return;
             }
             if(References.connected) {
@@ -149,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 GeneralLogger.log("loopConnectionWait NOT References.connected");
 
                 if(References.wrongPassword) {
+                    References.currentlyConnectingBusy = false;
                     GeneralLogger.log("Interrupting thread (loopConnectionWait more like end)");
                     Thread.currentThread().interrupt();
                     return;

@@ -72,7 +72,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cmdSend_btn"
         app:layout_constraintStart_toEndOf="@+id/cmdInput"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.38"
+        tools:ignore="RtlHardcoded" />
 
     <EditText
         android:id="@+id/cmdInput"
@@ -90,7 +91,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cmdClearInput_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="LabelFor" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -123,7 +125,8 @@
                 android:text="CTRL"
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonSendToExec"
@@ -137,7 +140,8 @@
                 android:text="INPUT"
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1_specialbtns"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonSpecialSymbols"
@@ -154,7 +158,8 @@
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonFiles"
@@ -170,7 +175,8 @@
                 android:text="Files..."
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonSystem"
@@ -186,7 +192,8 @@
                 android:text="system..."
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonOther"
@@ -200,7 +207,8 @@
                 android:text="Other"
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonSpecialSymbol"
@@ -217,7 +225,8 @@
                 android:textAlignment="center"
                 android:textColor="@color/maincoloratt1"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonCommand"
@@ -230,7 +239,8 @@
                 android:layout_weight="1"
                 android:text="cmd"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonMessage"
@@ -244,7 +254,8 @@
                 android:layout_weight="1"
                 android:text="msg"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonTaskList"
@@ -260,7 +271,8 @@
                 android:text="tasks"
                 android:textColor="@color/maincoloratt1"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
             <Button
                 android:id="@+id/cmdExtraButtonShutdown"
@@ -276,7 +288,8 @@
                 android:text="shutdown"
                 android:textColor="@color/maincoloratt1"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="ButtonStyle,HardcodedText" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -296,7 +309,8 @@
         app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cmdScrollView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="HardcodedText" />
 
     <ImageButton
         android:id="@+id/cmdScrollDownBtn"
@@ -312,6 +326,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.01999998"
-        app:srcCompat="@drawable/more_horiz" />
+        app:srcCompat="@drawable/more_horiz"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
