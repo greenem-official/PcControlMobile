@@ -97,126 +97,129 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+                //requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //setTheme(R.style.Theme_Design_Light_NoActionBar);
+                //setTheme(R.style.Theme_Design_Light_NoActionBar);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        Window window = getWindow();
-        // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                Window window = getWindow();
+                // clear FLAG_TRANSLUCENT_STATUS flag:
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+                // finally change the color
+                window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_console);
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_console);
 
-        //closeKeyboard();
+                //closeKeyboard();
 
-        cmdText = findViewById(R.id.cmdOutputTextView);
-        cmdInput = findViewById(R.id.cmdInput);
-        cmdScrollView = findViewById(R.id.cmdScrollView);
-        cmdVerticalLayoutScrollView = findViewById(R.id.cmdScroll_linearLayoutVertical);
-        cmdSendButton = findViewById(R.id.cmdSend_btn);
-        layout = findViewById(R.id.consoleLayout);
-        otherButton = findViewById(R.id.cmdExtraButtonOther);
-        connectionLostText = findViewById(R.id.cmd_connectionLost_text);
-        rowButtonExtraTaskList = findViewById(R.id.cmdExtraButtonTaskList);
-        rowButtonExtraShutdown = findViewById(R.id.cmdExtraButtonShutdown);
-        rowButtonExtraSpecialSymbols = findViewById(R.id.cmdExtraButtonSpecialSymbols);
-        rowButtonExtraCtrl = findViewById(R.id.cmdExtraButtonCtrl);
-        scrollDownButton = findViewById(R.id.cmdScrollDownBtn);
-        cmdClearInputButton = findViewById(R.id.cmdClearInput_btn);
-        rowButtonExtraSystem = findViewById(R.id.cmdExtraButtonSystem);
-        rowButtonExtraFiles = findViewById(R.id.cmdExtraButtonFiles);
-        rowButtonExtraExecInput = findViewById(R.id.cmdExtraButtonSendToExec);
-        consoleLayout = findViewById(R.id.consoleLayout);
-        //foldersMenuLayout = findViewById(R.id.foldersmenulayout);
-        //fodersMenuOkButton = findViewById(R.id.foldersmenu_okbutton);
+                cmdText = findViewById(R.id.cmdOutputTextView);
+                cmdInput = findViewById(R.id.cmdInput);
+                cmdScrollView = findViewById(R.id.cmdScrollView);
+                cmdVerticalLayoutScrollView = findViewById(R.id.cmdScroll_linearLayoutVertical);
+                cmdSendButton = findViewById(R.id.cmdSend_btn);
+                layout = findViewById(R.id.consoleLayout);
+                otherButton = findViewById(R.id.cmdExtraButtonOther);
+                connectionLostText = findViewById(R.id.cmd_connectionLost_text);
+                rowButtonExtraTaskList = findViewById(R.id.cmdExtraButtonTaskList);
+                rowButtonExtraShutdown = findViewById(R.id.cmdExtraButtonShutdown);
+                rowButtonExtraSpecialSymbols = findViewById(R.id.cmdExtraButtonSpecialSymbols);
+                rowButtonExtraCtrl = findViewById(R.id.cmdExtraButtonCtrl);
+                scrollDownButton = findViewById(R.id.cmdScrollDownBtn);
+                cmdClearInputButton = findViewById(R.id.cmdClearInput_btn);
+                rowButtonExtraSystem = findViewById(R.id.cmdExtraButtonSystem);
+                rowButtonExtraFiles = findViewById(R.id.cmdExtraButtonFiles);
+                rowButtonExtraExecInput = findViewById(R.id.cmdExtraButtonSendToExec);
+                consoleLayout = findViewById(R.id.consoleLayout);
+                //foldersMenuLayout = findViewById(R.id.foldersmenulayout);
+                //fodersMenuOkButton = findViewById(R.id.foldersmenu_okbutton);
 
-        //rowButtonExtraMcCommand = findViewById(R.id.cmdExtraButtonCommand);
-        //rowButtonExtraMcMessage = findViewById(R.id.cmdExtraButtonMessage);
+                //rowButtonExtraMcCommand = findViewById(R.id.cmdExtraButtonCommand);
+                //rowButtonExtraMcMessage = findViewById(R.id.cmdExtraButtonMessage);
 
 
 //        rowButtonExtraColor.setOnClickListener();
 
-        cmdScrollView.setOnTouchListener(new View.OnTouchListener() {
+        new Thread(new Runnable() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                long CLICK_DURATION = 100;
+            public void run() {
+                cmdScrollView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        long CLICK_DURATION = 100;
 
 
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        consoleClickTypeX1 = event.getX();
-                        consoleClickTypeY1 = event.getY();
-                        consoleClickTypeT1 = System.currentTimeMillis();
-                        //System.out.println("return true");
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        consoleClickTypeX2 = event.getX();
-                        consoleClickTypeY2 = event.getY();
-                        consoleClickTypeT2 = System.currentTimeMillis();
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                consoleClickTypeX1 = event.getX();
+                                consoleClickTypeY1 = event.getY();
+                                consoleClickTypeT1 = System.currentTimeMillis();
+                                //System.out.println("return true");
+                                return true;
+                            case MotionEvent.ACTION_UP:
+                                consoleClickTypeX2 = event.getX();
+                                consoleClickTypeY2 = event.getY();
+                                consoleClickTypeT2 = System.currentTimeMillis();
 
-                        //System.out.println((x2-x1) + " " + (y2-y1));
+                                //System.out.println((x2-x1) + " " + (y2-y1));
 
-                        if (Math.abs(consoleClickTypeX2 - consoleClickTypeX1)<=1 && Math.abs(consoleClickTypeY2 - consoleClickTypeY1)<=1 && (consoleClickTypeT2 - consoleClickTypeT1) < CLICK_DURATION) {
-                            //Click
-                            //System.out.println("Click");
-                            doInputStuff();
-                        } else if ((consoleClickTypeT2 - consoleClickTypeT1) >= CLICK_DURATION) {
-                            //Long click
-                            //System.out.println("Long click");
-                        } else if (consoleClickTypeX1 > consoleClickTypeX2) {
-                           //Left swipe
-                            //System.out.println("Left swipe");
-                        } else if (consoleClickTypeX2 > consoleClickTypeX1) {
-                            //Right swipe
-                            //System.out.println("Right swipe");
-                        } else if (consoleClickTypeY1 > consoleClickTypeY2) {
-                           //Down swipe
-                            //System.out.println("Down swipe");
-                        } else if (consoleClickTypeY2 > consoleClickTypeY1) {
-                            //Up swipe
-                            //System.out.println("Up swipe");
-                            //System.out.println(cmdScrollView.getScrollY());
+                                if (Math.abs(consoleClickTypeX2 - consoleClickTypeX1) <= 1 && Math.abs(consoleClickTypeY2 - consoleClickTypeY1) <= 1 && (consoleClickTypeT2 - consoleClickTypeT1) < CLICK_DURATION) {
+                                    //Click
+                                    //System.out.println("Click");
+                                    doInputStuff();
+                                } else if ((consoleClickTypeT2 - consoleClickTypeT1) >= CLICK_DURATION) {
+                                    //Long click
+                                    //System.out.println("Long click");
+                                } else if (consoleClickTypeX1 > consoleClickTypeX2) {
+                                    //Left swipe
+                                    //System.out.println("Left swipe");
+                                } else if (consoleClickTypeX2 > consoleClickTypeX1) {
+                                    //Right swipe
+                                    //System.out.println("Right swipe");
+                                } else if (consoleClickTypeY1 > consoleClickTypeY2) {
+                                    //Down swipe
+                                    //System.out.println("Down swipe");
+                                } else if (consoleClickTypeY2 > consoleClickTypeY1) {
+                                    //Up swipe
+                                    //System.out.println("Up swipe");
+                                    //System.out.println(cmdScrollView.getScrollY());
+                                }
+
+
+                                return true;
                         }
 
+                        return false;
+                    }
+                });
 
-                        return true;
-                }
+                cmdSendButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sendInput();
+                    }
+                });
 
-                return false;
-            }
-        });
+                otherButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent startIntent = new Intent(getApplicationContext(), OtherActivity.class);
+                        startActivity(startIntent);
+                    }
+                });
 
-        cmdSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendInput();
-            }
-        });
-
-        otherButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), OtherActivity.class);
-                startActivity(startIntent);
-            }
-        });
-
-        scrollDownButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                autoscroll = true;
-                fadingScrollButtonToAlphaValue = 0f;
-                cmdScrollView.post(scrollDownRunnable);
-                //scrollDownButton.setVisibility(View.INVISIBLE);
-            }
-        });
+                scrollDownButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        autoscroll = true;
+                        fadingScrollButtonToAlphaValue = 0f;
+                        cmdScrollView.post(scrollDownRunnable);
+                        //scrollDownButton.setVisibility(View.INVISIBLE);
+                    }
+                });
 
         /*rowButtonExtraMcCommand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,49 +249,47 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
             }
         });*/
 
-        rowButtonExtraCtrl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isRowButtonExtraCtrlClicked = !isRowButtonExtraCtrlClicked;
-                if(isRowButtonExtraCtrlClicked){
+                rowButtonExtraCtrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        isRowButtonExtraCtrlClicked = !isRowButtonExtraCtrlClicked;
+                        if (isRowButtonExtraCtrlClicked) {
 
-                    //rowButtonExtraCtrl.setBackgroundTintList(contextInstance.getResources().getColorStateList(R.color.your_xml_name));
-                    rowButtonExtraCtrl.setTextColor(Color.parseColor("#FF6200EE")); //without theme
-                }
-                else{
-                    rowButtonExtraCtrl.setTextColor(Color.parseColor("#FFFFFF")); //without theme
-                }
-                //rowButtonExtraMcCommand.setBackgroundColor(Color.parseColor("#5e5e5e"));
-            }
-        });
+                            //rowButtonExtraCtrl.setBackgroundTintList(contextInstance.getResources().getColorStateList(R.color.your_xml_name));
+                            rowButtonExtraCtrl.setTextColor(Color.parseColor("#FF6200EE")); //without theme
+                        } else {
+                            rowButtonExtraCtrl.setTextColor(Color.parseColor("#FFFFFF")); //without theme
+                        }
+                        //rowButtonExtraMcCommand.setBackgroundColor(Color.parseColor("#5e5e5e"));
+                    }
+                });
 
-        rowButtonExtraExecInput.setOnClickListener(view -> {
-            isRowButtonExtraExecInputClicked = !isRowButtonExtraExecInputClicked;
-            if(isRowButtonExtraExecInputClicked){
+                rowButtonExtraExecInput.setOnClickListener(view -> {
+                    isRowButtonExtraExecInputClicked = !isRowButtonExtraExecInputClicked;
+                    if (isRowButtonExtraExecInputClicked) {
 
-                //rowButtonExtraCtrl.setBackgroundTintList(contextInstance.getResources().getColorStateList(R.color.your_xml_name));
-                rowButtonExtraExecInput.setTextColor(Color.parseColor("#FF6200EE")); //without theme
-            }
-            else{
-                rowButtonExtraExecInput.setTextColor(getResources().getColor(R.color.maincoloratt1_specialbtns)); //without theme
-            }
-        });
+                        //rowButtonExtraCtrl.setBackgroundTintList(contextInstance.getResources().getColorStateList(R.color.your_xml_name));
+                        rowButtonExtraExecInput.setTextColor(Color.parseColor("#FF6200EE")); //without theme
+                    } else {
+                        rowButtonExtraExecInput.setTextColor(getResources().getColor(R.color.maincoloratt1_specialbtns)); //without theme
+                    }
+                });
 
-        rowButtonExtraTaskList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                rowButtonExtraTaskList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 //                String s = "§";
-                String s = "$system.getinfo.tasklist.request";
-                int index = cmdInput.getSelectionStart();
-                Editable editable = cmdInput.getText();
-                editable.insert(index, s);
+                        String s = "$system.getinfo.tasklist.request";
+                        int index = cmdInput.getSelectionStart();
+                        Editable editable = cmdInput.getText();
+                        editable.insert(index, s);
 //                System.out.println(keyboardOpen);
 //                System.out.println(cmdScrollView.getY());
 //                System.out.println("heartBeats:" + References.heartBeatsNumber);
-                //cmdInput.setText(cmdInput.getText().toString()+"§");
+                        //cmdInput.setText(cmdInput.getText().toString()+"§");
 
-            }
-        });
+                    }
+                });
 //        System.out.println(textView);
 
         /*rowButtonExtraSpecialSymbol.setOnClickListener(new View.OnClickListener() {
@@ -301,208 +302,210 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
             }
         });*/
 
-        rowButtonExtraShutdown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                rowButtonExtraShutdown.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 //                String s = "§";
-                    String s = "$system.management.shutdown.usual.request";
-                int index = cmdInput.getSelectionStart();
-                Editable editable = cmdInput.getText();
-                editable.insert(index, s);
+                        String s = "$system.management.shutdown.usual.request";
+                        int index = cmdInput.getSelectionStart();
+                        Editable editable = cmdInput.getText();
+                        editable.insert(index, s);
 //                System.out.println(keyboardOpen);
 //                System.out.println(cmdScrollView.getY());
 //                System.out.println("heartBeats:" + References.heartBeatsNumber);
-                //cmdInput.setText(cmdInput.getText().toString()+"§");
+                        //cmdInput.setText(cmdInput.getText().toString()+"§");
 
-            }
-        });
-
-        cmdClearInputButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Editable editable = cmdInput.getText();
-                editable.clear();
-                fadingClearInputButtonToAlphaValue = 0f;
-            }
-        });
-
-        rowButtonExtraSystem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(ConsoleActivity.this, v);
-                popupMenu.getMenuInflater().inflate(R.menu.system_commands_popup, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.item_tasklist:
-                                References.sender.sendMessage("$system.getinfo.tasklist.request");
-                                return true;
-                            case R.id.item_shutdown_turnoff:
-                                References.sender.sendMessage("$system.management.shutdown.usual.request");
-                                return true;
-                            case R.id.item_shutdown_restart:
-                                References.sender.sendMessage("$system.management.shutdown.restart.request");
-                                return true;
-                            default:
-                                return false;
-                        }
                     }
                 });
-                popupMenu.show();
-            }
-        });
 
-        rowButtonExtraSpecialSymbols.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(ConsoleActivity.this, v);
-                popupMenu.getMenuInflater().inflate(R.menu.special_symbols_popup, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                cmdClearInputButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.item_paragraph:
-                                addTextToInput("§");
-                                return true;
-                            case R.id.item_dollar:
-                                addTextToInput("$");
-                                return true;
-                            default:
-                                return false;
-                        }
+                    public void onClick(View view) {
+                        Editable editable = cmdInput.getText();
+                        editable.clear();
+                        fadingClearInputButtonToAlphaValue = 0f;
                     }
                 });
-                popupMenu.show();
-            }
-        });
 
-        rowButtonExtraFiles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(ConsoleActivity.this, v);
-                popupMenu.getMenuInflater().inflate(R.menu.files_actions_popup, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                rowButtonExtraSystem.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.item_tolocation:
-                                //References.socketSender.sendMessage("$system.files.cd");
-                                //foldersMenuLayout.setVisibility(View.VISIBLE);
-                                openFilesDialog();
-                                //References.reloadFoldersFilesList();
-                                return true;
-                            case R.id.item_allfileslist:
-                                References.sender.sendMessage("$system.files.fileslist.request");
-                                return true;
-                            case R.id.item_folderslist:
-                                References.sender.sendMessage("$system.files.folderslist.request");
-                                return true;
-                            case R.id.item_nonfolderslist:
-                                References.sender.sendMessage("$system.files.nonfolderslist.request");
-                                return true;
-                            case R.id.item_printLocation:
-                                printCurrentLocation();
-                                return true;
-                            case R.id.item_folderinfo:
-                                requestFolderInfo();
-                                return true;
-                            case R.id.item_execute:
-                                openExecuteDialog();
-                            default:
-                                return false;
-                        }
+                    public void onClick(View v) {
+                        PopupMenu popupMenu = new PopupMenu(ConsoleActivity.this, v);
+                        popupMenu.getMenuInflater().inflate(R.menu.system_commands_popup, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.item_tasklist:
+                                        References.sender.sendMessage("$system.getinfo.tasklist.request");
+                                        return true;
+                                    case R.id.item_shutdown_turnoff:
+                                        References.sender.sendMessage("$system.management.shutdown.usual.request");
+                                        return true;
+                                    case R.id.item_shutdown_restart:
+                                        References.sender.sendMessage("$system.management.shutdown.restart.request");
+                                        return true;
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                        popupMenu.show();
                     }
                 });
-                popupMenu.show();
-            }
-        });
 
-        //while (true) {
-            //((TextView) findViewById(R.id.cmdOutputTextView)).setText(References.lastConsoleOutput);
-        //}
+                rowButtonExtraSpecialSymbols.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popupMenu = new PopupMenu(ConsoleActivity.this, v);
+                        popupMenu.getMenuInflater().inflate(R.menu.special_symbols_popup, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.item_paragraph:
+                                        addTextToInput("§");
+                                        return true;
+                                    case R.id.item_dollar:
+                                        addTextToInput("$");
+                                        return true;
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                        popupMenu.show();
+                    }
+                });
 
-        //Thread printer = new Thread(new Printer(textView));
-        //printer.start();
+                rowButtonExtraFiles.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popupMenu = new PopupMenu(ConsoleActivity.this, v);
+                        popupMenu.getMenuInflater().inflate(R.menu.files_actions_popup, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.item_tolocation:
+                                        //References.socketSender.sendMessage("$system.files.cd");
+                                        //foldersMenuLayout.setVisibility(View.VISIBLE);
+                                        openFilesDialog();
+                                        //References.reloadFoldersFilesList();
+                                        return true;
+                                    case R.id.item_allfileslist:
+                                        References.sender.sendMessage("$system.files.fileslist.request");
+                                        return true;
+                                    case R.id.item_folderslist:
+                                        References.sender.sendMessage("$system.files.folderslist.request");
+                                        return true;
+                                    case R.id.item_nonfolderslist:
+                                        References.sender.sendMessage("$system.files.nonfolderslist.request");
+                                        return true;
+                                    case R.id.item_printLocation:
+                                        printCurrentLocation();
+                                        return true;
+                                    case R.id.item_folderinfo:
+                                        requestFolderInfo();
+                                        return true;
+                                    case R.id.item_execute:
+                                        openExecuteDialog();
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                        popupMenu.show();
+                    }
+                });
 
-        cmdInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("cmdInput start" + keyboardOpen);
-                keyboardOpen = true;
-                System.out.println("cmdInput end" + keyboardOpen);
-            }
-        });
+                //while (true) {
+                //((TextView) findViewById(R.id.cmdOutputTextView)).setText(References.lastConsoleOutput);
+                //}
 
-        cmdInput.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                System.out.println("OnKeyListener - " + event.getAction());
-                //System.out.println(event.getKeyCode() == KeyEvent.KEYCODE_C);
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    sendInput();
-                    //focusOnInput();
+                //Thread printer = new Thread(new Printer(textView));
+                //printer.start();
+
+                cmdInput.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("cmdInput start" + keyboardOpen);
+                        keyboardOpen = true;
+                        System.out.println("cmdInput end" + keyboardOpen);
+                    }
+                });
+
+                cmdInput.setOnKeyListener(new View.OnKeyListener() {
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        // If the event is a key-down event on the "enter" button
+                        System.out.println("OnKeyListener - " + event.getAction());
+                        //System.out.println(event.getKeyCode() == KeyEvent.KEYCODE_C);
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                            // Perform action on key press
+                            sendInput();
+                            //focusOnInput();
                     /*if (cmdInput.requestFocus()) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(cmdInput, InputMethodManager.SHOW_IMPLICIT);
                     }*/
-                    cmdInput.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                    return true;
-                }
-                else if (isRowButtonExtraCtrlClicked && event.getAction() == KeyEvent.ACTION_DOWN && ((event.getKeyCode() == KeyEvent.KEYCODE_C) || (event.getKeyCode() == KeyEvent.KEYCODE_Q))) { //not always else if
-                    stopRemoteExecution();
-                    return true;
-                }
-                return false;
-            }
-        });
+                            cmdInput.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                            return true;
+                        } else if (isRowButtonExtraCtrlClicked && event.getAction() == KeyEvent.ACTION_DOWN && ((event.getKeyCode() == KeyEvent.KEYCODE_C) || (event.getKeyCode() == KeyEvent.KEYCODE_Q))) { //not always else if
+                            stopRemoteExecution();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
-        cmdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                //System.out.println(keyEvent.getAction());
-                //System.out.println(keyEvent.getKeyCode() == KeyEvent.KEYCODE_C);
-                return false;
-            }
-        });
+                cmdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        //System.out.println(keyEvent.getAction());
+                        //System.out.println(keyEvent.getKeyCode() == KeyEvent.KEYCODE_C);
+                        return false;
+                    }
+                });
 
-        cmdInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                cmdInput.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
+                    }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 /*System.out.println("onTextChanged - " + isRowButtonExtraCtrlClicked);
                 if(charSequence.length()==1) {
                     System.out.println("onTextChanged - " + charSequence.charAt(0) == "c");
                     System.out.println("onTextChanged - " + charSequence.charAt(0) == "C");
                 }*/
-                if(isRowButtonExtraCtrlClicked && charSequence.length()==1 && (charSequence.charAt(0) == 'c' || charSequence.charAt(0) == 'q'
-                || charSequence.charAt(0) == 'C' || charSequence.charAt(0) == 'Q')){
-                    cmdInput.setText("");
-                    stopRemoteExecution(); //later
-                }
+                        if (isRowButtonExtraCtrlClicked && charSequence.length() == 1 && (charSequence.charAt(0) == 'c' || charSequence.charAt(0) == 'q'
+                                || charSequence.charAt(0) == 'C' || charSequence.charAt(0) == 'Q')) {
+                            cmdInput.setText("");
+                            stopRemoteExecution(); //later
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                cmdInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+
+                    }
+                });
+
+                startRunnables();
+
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        cmdInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-
-            }
-        });
-
-        startRunnables();
+        }).start();
     }
 
     private void startRunnables(){
@@ -625,8 +628,6 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                 if (i > maxI) {
                     i = 0;
                 }
-
-
 
                 References.handler.postDelayed(loopPrinter, 10);
             }
