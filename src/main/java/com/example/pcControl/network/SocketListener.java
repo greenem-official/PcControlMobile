@@ -104,7 +104,7 @@ public class SocketListener implements Runnable {
                             if(args[0].equals("heartbeat")) {
                                 if (len > 1) {
                                     if (args[1].equals("timeout")) {
-                                        displayLine = "Got disconnected from the server, error code: 0x001" + "\n";
+                                        displayLine = "Got disconnected from the server, error code: 0x001"; // + "\n"
                                         onDisconnect(); // not tested
                                     }
                                 }

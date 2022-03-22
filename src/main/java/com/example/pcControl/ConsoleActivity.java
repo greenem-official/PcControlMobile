@@ -151,7 +151,6 @@ public class ConsoleActivity extends AppCompatActivity implements FilesDialog.Fi
                     public boolean onTouch(View v, MotionEvent event) {
                         long CLICK_DURATION = 100;
 
-
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 consoleClickTypeX1 = event.getX();
