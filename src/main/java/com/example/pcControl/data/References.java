@@ -64,6 +64,7 @@ public class References {
     public static boolean showSendInputToExecBtn = false;
 
     public static boolean alreadyConnectedT = false;
+    public static boolean alreadySetPolicy = false;
 
     public static boolean changedPasswordAfterConnecting = false;
 

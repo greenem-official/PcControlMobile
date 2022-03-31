@@ -67,11 +67,15 @@ public class MainActivity extends AppCompatActivity {
         if (References.handler == null) {
             References.handler = new Handler();
         }
+        GeneralLogger.log("debug 1");
         if(References.ip!=null && References.port!=null && References.password!=null &&
                 !References.ip.equals("") && !References.port.equals("") && !References.password.equals("")) {
-            if (!References.alreadyConnectedT) {
+            GeneralLogger.log("debug 2");
+            if (!References.alreadyConnectedT && !References.alreadySetPolicy) {
+                GeneralLogger.log("debug 3");
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
+                References.alreadySetPolicy = true;
             }
             Thread theThread = new Thread(connectionFirst);
             theThread.start();
@@ -131,12 +135,13 @@ public class MainActivity extends AppCompatActivity {
             GeneralLogger.log("loopConnectionWait");
 //            System.out.println(wrongPassword);
 //            System.out.println(References.connected);
+            //TODO: sdfg
             if(References.wrongPassword) {
                 References.handler.post((Runnable) () -> Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show());
                 GeneralLogger.log("Interrupting thread (loopConnectionWait)");
-                Thread.currentThread().interrupt();
                 References.currentlyConnectingBusy = false;
                 References.alreadyConnectedT = false;
+                Thread.currentThread().interrupt();
                 return;
             }
             if(References.connected) {
@@ -193,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
                 References.alreadyConnectedT = false;
                 References.connected = false;
                 References.wrongPassword = true;
+                References.currentlyConnectingBusy = false;
+                References.alreadyConnectedT = false;
                 GeneralLogger.log("Interrupting thread (checkPwdGoToConsoleScreen)");
                 Thread.currentThread().interrupt();
                 return;
