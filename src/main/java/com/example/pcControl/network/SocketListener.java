@@ -86,6 +86,7 @@ public class SocketListener implements Runnable {
                                                 //}
                                                 References.justReconnectedT = false;
                                                 //displayLine = null;
+                                                if(!References.currentFolder.equals("")) References.sender.sendMessage("$system.files.changelocation.request.new=" + References.currentFolder);
                                             }
                                             else if(args[2].equals("denied")) {
                                                 References.authAccepted = 0;
@@ -122,7 +123,7 @@ public class SocketListener implements Runnable {
                             else if(args[0].equals("rsccommand")) {
                                 if(len>1){
                                     if(args[1].equals("unknown")) {
-                                        displayLine = "Unknown command!" + "\n";
+                                        displayLine = "Unknown command!" + "\n"; // idk if this is used because there is anotehr way by message
                                     }
                                 }
                             }
@@ -153,12 +154,18 @@ public class SocketListener implements Runnable {
                                                             if(args[4].equals("accepted")) {
                                                                 displayLine = "Shutting down the computer..." + "\n"; //result.replaceAll("&l&ine&", "\n");
                                                             }
+                                                            else if(args[4].equals("denied")) {
+                                                                displayLine = "Can't shut down the computer, the feature is disabled by the user" + "\n";
+                                                            }
                                                         }
                                                     }
                                                     if(args[3].equals("restart")) {
                                                         if(len>4){
                                                             if(args[4].equals("accepted")) {
                                                                 displayLine = "Restarting the computer..." + "\n"; //result.replaceAll("&l&ine&", "\n");
+                                                            }
+                                                            else if(args[4].equals("denied")) {
+                                                                displayLine = "Can't restart the computer, the feature is disabled by the user" + "\n";
                                                             }
                                                         }
                                                     }
@@ -329,17 +336,23 @@ public class SocketListener implements Runnable {
                                                                         if (parts.length == 1 && path.contains(References.systemSeparator)) {
                                                                             folder += References.systemSeparator;
                                                                         }
-                                                                        References.lastConsoleOutput += "Entered directory \"" + folder + "\"\n"; //"Entered folder \"" + folder + "\"";
+//                                                                        System.out.println(References.currentFolder);
+//                                                                        System.out.println(path);
+                                                                        if(!References.currentFolder.equals(path)) References.lastConsoleOutput += "Entered directory \"" + folder + "\"\n\n"; //"Entered folder \"" + folder + "\"";
                                                                         References.currentFolder = path;
                                                                         References.reloadFoldersFilesList();
                                                                     }
                                                                 }
                                                             }
-                                                            if (args[4].equals("denied")) {
+                                                            if (args[4].equals("denied") || args[4].equals("deniednotfolder")) {
                                                                 if (len > 5) {
                                                                     if (args[5].startsWith("old=")) {
                                                                         References.currentFolder = inputLine.substring(47);
-                                                                        displayLine = "Such folder doesn't exist.&l&ine&" + "\n";
+                                                                        if(args[4].equals("denied")) {
+                                                                            displayLine = "Such folder doesn't exist.&l&ine&"; // + "\n";
+                                                                        } else {
+                                                                            displayLine = "You can't enter that location because it's not a folder.&l&ine&"; // + "\n";
+                                                                        }
                                                                     }
                                                                 }
                                                             }
